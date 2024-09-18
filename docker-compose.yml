@@ -1,0 +1,39 @@
+services:
+  novus2mqtt:
+    container_name: "novus2mqtt"
+    build: .
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 64M
+        reservations:
+          cpus: '0.1'
+          memory: 32M
+    hostname: "novus2mqtt"
+    domainname: "paulnovus.local"
+    environment:
+      - LOG_LEVEL=INFO
+      - SERIAL_PORT=/dev/ttyUSB0
+      - SERIAL_BAUDRATE=9600
+      - MQTT_BROKER=${MQTT_BROKER}
+      - MQTT_PORT=1883
+      - MQTT_USERNAME=${MQTT_USERNAME}
+      - MQTT_PASSWORD=${MQTT_PASSWORD}
+      - MQTT_BASE_PREFIX=${MQTT_BASE_PREFIX}
+      - NOVUS_TYPE=Novus300
+      - NOVUS_CONFIG_OLD=${NOVUS_CONFIG_OLD}
+      - NOVUS_CONFIG=${NOVUS_CONFIG}
+      - HASS_DISCOVERY=${HASS_DISCOVERY}
+      - HASS_DISCOVERY_PREFIX=${HASS_DISCOVERY_PREFIX}
+    devices:
+      - "/dev/ttyUSB0:/dev/ttyUSB0"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "[ -c /dev/ttyUSB0 ] || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    extra_hosts:
+      - "mqtt:${MQTT_BROKER}"

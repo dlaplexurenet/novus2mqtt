@@ -1,0 +1,162 @@
+[
+    {
+      "topic": "{hass_discovery_prefix}/sensor/{mqtt_base_prefix}/supply_air_temperature/config",
+      "payload": {
+        "name": "CMV Supply Air Temperature",
+        "unique_id": "cmv_supply_air_temperature",
+        "object_id": "cmv_supply_air_temperature",
+        "state_topic": "{mqtt_base_prefix}/supply_air_temperature/state",
+        "unit_of_measurement": "°C",
+        "device_class": "temperature",
+        "icon": "mdi:thermometer",
+        "enabled_by_default": true,
+        "value_template": "{{ value_json.temperature }}",
+        "expire_after": 600,
+        "state_class": "measurement",
+        "retain": true,
+        "suggested_area": "Ventilation",
+        "entity_category": "config",
+        "device": {
+          "identifiers": ["{device_identifier}"],
+          "name": "{device_name}",
+          "model": "{device_model}",
+          "manufacturer": "{device_manufacturer}",
+          "hw_version": "{device_hw_version}",
+          "sw_version": "{device_sw_version}",
+          "suggested_area": "{device_suggested_area}"
+        }
+      }
+    },
+    {
+      "topic": "{hass_discovery_prefix}/sensor/{mqtt_base_prefix}/return_air_temperature/config",
+      "payload": {
+        "name": "CMV Return Air Temperature",
+        "unique_id": "cmv_return_air_temperature",
+        "state_topic": "{mqtt_base_prefix}/return_air_temperature/state",
+        "unit_of_measurement": "°C",
+        "device_class": "temperature",
+        "icon": "mdi:thermometer",
+        "value_template": "{{ value_json.temperature }}",
+        "expire_after": 600,
+        "state_class": "measurement",
+        "device": {
+            "identifiers": ["{device_identifier}"],
+            "name": "{device_name}",
+            "model": "{device_model}",
+            "manufacturer": "{device_manufacturer}",
+            "hw_version": "{device_hw_version}",
+            "sw_version": "{device_sw_version}",
+            "suggested_area": "{device_suggested_area}"
+          }
+      }
+    },
+    {
+      "topic": "{hass_discovery_prefix}/sensor/{mqtt_base_prefix}/total_operating_hours/config",
+      "payload": {
+        "name": "CMV Total Operating Hours",
+        "unique_id": "cmv_total_operating_hours",
+        "state_topic": "{mqtt_base_prefix}/total_operating_hours/state",
+        "unit_of_measurement": "hours",
+        "device_class": "duration",
+        "icon": "mdi:clock-outline",
+        "value_template": "{{ value_json.hours }}",
+        "state_class": "total_increasing",
+        "entity_category": "diagnostic",
+        "device": {
+            "identifiers": ["{device_identifier}"],
+            "name": "{device_name}",
+            "model": "{device_model}",
+            "manufacturer": "{device_manufacturer}",
+            "hw_version": "{device_hw_version}",
+            "sw_version": "{device_sw_version}",
+            "suggested_area": "{device_suggested_area}"
+          }
+      }
+    },
+    {
+      "topic": "{hass_discovery_prefix}/button/{mqtt_base_prefix}/filter_change_acknowledge/config",
+      "payload": {
+        "name": "CMV Filter Change Acknowledge",
+        "unique_id": "cmv_filter_change_acknowledge",
+        "command_topic": "{mqtt_base_prefix}/filter_change_acknowledge/set",
+        "payload_press": "acknowledge",
+        "icon": "mdi:filter-outline",
+        "entity_category": "config",
+        "device": {
+            "identifiers": ["{device_identifier}"],
+            "name": "{device_name}",
+            "model": "{device_model}",
+            "manufacturer": "{device_manufacturer}",
+            "hw_version": "{device_hw_version}",
+            "sw_version": "{device_sw_version}",
+            "suggested_area": "{device_suggested_area}"
+          }
+      }
+    },
+    {
+      "topic": "{hass_discovery_prefix}/switch/{mqtt_base_prefix}/bypass_mode/config",
+      "payload": {
+        "name": "CMV Bypass Mode",
+        "unique_id": "cmv_bypass_mode",
+        "state_topic": "{mqtt_base_prefix}/bypass_mode/state",
+        "command_topic": "{mqtt_base_prefix}/bypass_mode/set",
+        "payload_on": "open",
+        "payload_off": "close",
+        "icon": "mdi:pipe",
+        "device": {
+            "identifiers": ["{device_identifier}"],
+            "name": "{device_name}",
+            "model": "{device_model}",
+            "manufacturer": "{device_manufacturer}",
+            "hw_version": "{device_hw_version}",
+            "sw_version": "{device_sw_version}",
+            "suggested_area": "{device_suggested_area}"
+          }
+      }
+    },
+    {
+      "topic": "{hass_discovery_prefix}/sensor/{mqtt_base_prefix}/frost_protection_temperature/config",
+      "payload": {
+        "name": "CMV Frost Protection Temperature",
+        "unique_id": "cmv_frost_protection_temperature",
+        "state_topic": "{mqtt_base_prefix}/frost_protection_temperature/state",
+        "unit_of_measurement": "°C",
+        "device_class": "temperature",
+        "value_template": "{{ value_json.temperature }}",
+        "icon": "mdi:snowflake",
+        "entity_category": "diagnostic",
+        "device": {
+            "identifiers": ["{device_identifier}"],
+            "name": "{device_name}",
+            "model": "{device_model}",
+            "manufacturer": "{device_manufacturer}",
+            "hw_version": "{device_hw_version}",
+            "sw_version": "{device_sw_version}",
+            "suggested_area": "{device_suggested_area}"
+          }
+      }
+    },
+    {
+      "topic": "{hass_discovery_prefix}/binary_sensor/{mqtt_base_prefix}/defroster_active/config",
+      "payload": {
+        "name": "CMV Defroster Active",
+        "unique_id": "cmv_defroster_active",
+        "state_topic": "{mqtt_base_prefix}/defroster_active/state",
+        "payload_on": "ON",
+        "payload_off": "OFF",
+        "device_class": "cold",
+        "icon": "mdi:snowflake",
+        "entity_category": "diagnostic",
+        "device": {
+            "identifiers": ["{device_identifier}"],
+            "name": "{device_name}",
+            "model": "{device_model}",
+            "manufacturer": "{device_manufacturer}",
+            "hw_version": "{device_hw_version}",
+            "sw_version": "{device_sw_version}",
+            "suggested_area": "{device_suggested_area}"
+          }
+      }
+    }
+  ]
+  

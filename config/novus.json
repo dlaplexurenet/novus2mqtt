@@ -1,0 +1,5130 @@
+{
+  "name": "Paul Novus 300 Vertical Left",
+  "manufacturer": "Paul Novus",
+  "model": "NOVUS300",
+  "hw_version": "L-VER-DEF",
+  "bus": {
+    "sw_version": "1.7.1",
+    "commands": [
+      {
+        "code": "0x00",
+        "description": "",
+        "append_write_operation": false,
+        "consume": false,
+        "log": {
+          "tag": "Clock",
+          "level": "DEBUG"
+        }
+      },
+      {
+        "code": "0x80",
+        "description": "",
+        "append_write_operation": false,
+        "consume": false,
+        "log": {
+          "tag": "Master to Device: You want to Join?",
+          "level": "DEBUG"
+        }
+      },
+      {
+        "code": "0x81",
+        "description": "",
+        "append_write_operation": false,
+        "consume": false,
+        "log": {
+          "tag": "Device to Master: I am in!",
+          "level": "DEBUG"
+        }
+      },
+      {
+        "code": "0x83",
+        "description": "",
+        "append_write_operation": false,
+        "consume": false,
+        "log": {
+          "tag": "Master to Memory: Dump!",
+          "level": "DEBUG"
+        }
+      },
+      {
+        "code": "0x84",
+        "description": "",
+        "append_write_operation": false,
+        "consume": false,
+        "log": {
+          "tag": "Device to Master: Give me a Ping!",
+          "level": "DEBUG"
+        }
+      },
+      {
+        "code": "0x85",
+        "description": "",
+        "append_write_operation": false,
+        "consume": false,
+        "log": {
+          "tag": "Memory: Write",
+          "level": "INFO"
+        }
+      },
+      {
+        "code": "0x86",
+        "description": "",
+        "append_write_operation": false,
+        "consume": false,
+        "log": {
+          "tag": "Device to Master: Any update for me?",
+          "level": "DEBUG"
+        }
+      },
+      {
+        "code": "0x87",
+        "description": "",
+        "append_write_operation": false,
+        "consume": false,
+        "log": {
+          "tag": "Master to Device: See Checksum",
+          "level": "DEBUG"
+        }
+      },
+      {
+        "code": "0x88",
+        "description": "",
+        "append_write_operation": false,
+        "consume": false,
+        "log": {
+          "tag": "Device: Checksum not Found",
+          "level": "DEBUG"
+        }
+      }
+    ],
+    "available_device_addresses": [
+      "0x00",
+      "0x01",
+      "0x02",
+      "0x03",
+      "0x04",
+      "0x05",
+      "0x06",
+      "0x07",
+      "0x08",
+      "0x09",
+      "0x0a",
+      "0x0b",
+      "0x0c",
+      "0xff"
+    ]
+  },
+  "messages": [
+    {
+      "id": "chksum_error",
+      "log": {
+        "tag": "Error: Checksum Failed",
+        "level": "error"
+      }
+    },
+    {
+      "id": "consume_error",
+      "log": {
+        "tag": "Error: Exception in Consume",
+        "level": "exception"
+      }
+    },
+    {
+      "id": "unknown_cmd",
+      "log": {
+        "tag": "Skip: Unknown Command",
+        "level": "warning"
+      }
+    },
+    {
+      "id": "unknown_device",
+      "log": {
+        "tag": "Skip: Unknown Device or Wrong Sequence",
+        "level": "warning"
+      }
+    },
+    {
+      "id": "unknown_seq",
+      "log": {
+        "tag": "Skip: Wrong Beginning",
+        "level": "warning"
+      }
+    }
+  ],
+  "memory_address_register": [
+    {
+      "address": "0x00",
+      "unique_id": "sys_bus_version",
+      "channel": "system",
+      "name": {
+        "en": "BUS Version",
+        "de": "BUS-Version"
+      },
+      "description": {
+        "en": "BUS Version",
+        "de": "BUS-Version"
+      },
+      "payload": {
+        "length": 3,
+        "type": "byte",
+        "class": "version"
+      },
+      "state": {
+        "topic": "system/bus_version",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      }
+    },
+    {
+      "address": "0x01",
+      "unique_id": "sys_date",
+      "channel": "system",
+      "name": {
+        "en": "Date",
+        "de": "Datum"
+      },
+      "description": {
+        "en": "Date",
+        "de": "Datum"
+      },
+      "payload": {
+        "length": 4,
+        "type": "date",
+        "class": "date"
+      },
+      "state": {
+        "topic": "system/date",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      },
+      "command": {
+        "topic": "system/date/Set",
+        "retain": true,
+        "qos": 0
+      }
+    },
+    {
+      "address": "0x02",
+      "unique_id": "sys_time",
+      "channel": "system",
+      "name": {
+        "en": "Time",
+        "de": "Uhrzeit"
+      },
+      "description": {
+        "en": "Time",
+        "de": "Uhrzeit"
+      },
+      "payload": {
+        "length": 3,
+        "type": "time",
+        "class": "time"
+      },
+      "state": {
+        "topic": "system/time",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      },
+      "command": {
+        "topic": "system/time/Set",
+        "retain": true,
+        "qos": 0
+      }
+    },
+    {
+      "address": "0x03",
+      "unique_id": "dev_master_version",
+      "channel": "devices",
+      "name": {
+        "en": "Master Version",
+        "de": "Master Version"
+      },
+      "description": {
+        "en": "HW/SW-Version",
+        "de": "HW/SW-Version"
+      },
+      "payload": {
+        "length": 11,
+        "type": "char",
+        "class": "text"
+      },
+      "state": {
+        "topic": "devices/master/version",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      }
+    },
+    {
+      "address": "0x04",
+      "unique_id": "mem_0x04",
+      "channel": "memory",
+      "name": {
+        "en": "Unknown",
+        "de": "Unbekannt"
+      },
+      "description": {
+        "en": "Unknown",
+        "de": "Unbekannt"
+      },
+      "payload": {
+        "length": 1,
+        "type": "byte"
+      },
+      "state": {
+        "topic": "memory/0x04",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      }
+    },
+    {
+      "address": "0x05",
+      "unique_id": "vent_auto_sensor_output",
+      "channel": "ventilation",
+      "name": {
+        "en": "Sensor Output",
+        "de": "Sensorausgang"
+      },
+      "description": {
+        "en": "Sensor has a 4.0..20.0mA current output or a 0.0..10.0V voltage output.Settings: Voltage, CurrentFactory setting: Voltage",
+        "de": "Sensor über einen 4.0..20.0mA Strom- oder 0.0..10.0V Spannungsausgang.Einstellungen: Spannung, StromWerkseinstellung: Spannung"
+      },
+      "payload": {
+        "length": 2,
+        "type": "byte",
+        "class": "enum",
+        "default": "0100",
+        "options": {
+          "0100": "Voltage",
+          "0500": "Current"
+        }
+      },
+      "state": {
+        "topic": "ventilation/automatic/sensor/output",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      },
+      "command": {
+        "topic": "ventilation/automatic/sensor/output/Set",
+        "retain": true,
+        "qos": 0
+      }
+    },
+    {
+      "address": "0x06",
+      "unique_id": "sys_language",
+      "channel": "system",
+      "name": {
+        "en": "Language",
+        "de": "Ländersprache"
+      },
+      "description": {
+        "en": "Language for the TFT touch panel(s).Settings: German, English, French, Dutch, Polish, Swedish, Slovenian, Slovakian, Italian, Latvian, Spanish, CzechFactory setting: German",
+        "de": "Ländersprache für das/die TFT-Touchpanel.Einstellungen: German, English, French, Dutch, Polish, Swedish, Slovenian, Slovakian, Italian, Latvian, Spanish, CzechWerkseinstellung: German"
+      },
+      "payload": {
+        "length": 1,
+        "type": "byte",
+        "class": "enum",
+        "default": "00",
+        "options": {
+          "00": "German",
+          "01": "English",
+          "02": "French",
+          "03": "Dutch",
+          "04": "Polish",
+          "05": "Swedish",
+          "06": "Slovenian",
+          "07": "Slovakian",
+          "08": "Italian",
+          "09": "Latvian",
+          "0a": "Spanish",
+          "0b": "Czech"
+        }
+      },
+      "state": {
+        "topic": "system/language",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      },
+      "command": {
+        "topic": "system/language/Set",
+        "retain": true,
+        "qos": 0
+      }
+    },
+    {
+      "address": "0x07",
+      "unique_id": "sys_state",
+      "channel": "system",
+      "name": {
+        "en": "System State",
+        "de": "Gerätestatus"
+      },
+      "description": {
+        "en": "System State.Settings: Running, Standby",
+        "de": "Geräterstatus.Einstellungen: In Betrieb, Standby"
+      },
+      "payload": {
+        "length": 1,
+        "type": "byte",
+        "class": "enum",
+        "default": "01",
+        "options": {
+          "00": "Standby",
+          "01": "Running"
+        }
+      },
+      "state": {
+        "topic": "system/state",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      },
+      "command": {
+        "topic": "system/state/Set",
+        "retain": true,
+        "qos": 0
+      }
+    },
+    {
+      "address": "0x08",
+      "unique_id": "mem_0x08",
+      "channel": "memory",
+      "name": {
+        "en": "Unknown",
+        "de": "Unbekannt"
+      },
+      "description": {
+        "en": "Unknown",
+        "de": "Unbekannt"
+      },
+      "payload": {
+        "length": 1,
+        "type": "byte"
+      },
+      "state": {
+        "topic": "memory/0x08",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      }
+    },
+    {
+      "address": "0x09",
+      "unique_id": "msg_current",
+      "channel": "messages",
+      "name": {
+        "en": "Current Message",
+        "de": "Aktuelle Meldung"
+      },
+      "description": {
+        "en": "Code of current message",
+        "de": "Code der aktuellen Meldung"
+      },
+      "payload": {
+        "length": 16,
+        "type": "byte",
+        "class": "code"
+      },
+      "state": {
+        "topic": "messages/current",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      }
+    },
+    {
+      "address": "0x0a",
+      "unique_id": "msg_error_n1_code",
+      "channel": "messages",
+      "name": {
+        "en": "Error Message #1: Code",
+        "de": "Fehlermeldung #1: Code"
+      },
+      "description": {
+        "en": "Code of error message n-1",
+        "de": "Code der Fehlermeldung n-1"
+      },
+      "payload": {
+        "length": 16,
+        "type": "byte",
+        "class": "code"
+      },
+      "state": {
+        "topic": "messages/error_n1/code",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      }
+    },
+    {
+      "address": "0x0b",
+      "unique_id": "msg_error_n1_date",
+      "channel": "messages",
+      "name": {
+        "en": "Error Message #1: Date",
+        "de": "Fehlermeldung #1: Datum"
+      },
+      "description": {
+        "en": "Event date of error message n-1",
+        "de": "Datum der Fehlermeldung n-1"
+      },
+      "payload": {
+        "length": 4,
+        "type": "date",
+        "class": "date"
+      },
+      "state": {
+        "topic": "messages/error_n1/date",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      }
+    },
+    {
+      "address": "0x0c",
+      "unique_id": "msg_error_n1_time",
+      "channel": "messages",
+      "name": {
+        "en": "Error Message #1: Time",
+        "de": "Fehlermeldung #1: Uhrzeit"
+      },
+      "description": {
+        "en": "Event time of error message n-1",
+        "de": "Uhrzeit der Fehlermeldung n-1"
+      },
+      "payload": {
+        "length": 3,
+        "type": "time",
+        "class": "time"
+      },
+      "state": {
+        "topic": "messages/error_n1/time",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      }
+    },
+    {
+      "address": "0x0d",
+      "unique_id": "dev_cu_tft_1_version",
+      "channel": "devices",
+      "name": {
+        "en": "TFT-ControlUnit#1: Version",
+        "de": "TFT-Bedienteil #1: Version"
+      },
+      "description": {
+        "en": "HW/SW-Version",
+        "de": "HW/SW-Version"
+      },
+      "payload": {
+        "length": 11,
+        "type": "char",
+        "class": "text"
+      },
+      "state": {
+        "topic": "devices/control_unit_tft_1/version",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      }
+    },
+    {
+      "address": "0x0e",
+      "unique_id": "mem_0x0e",
+      "channel": "memory",
+      "name": {
+        "en": "Unknown",
+        "de": "Unbekannt"
+      },
+      "description": {
+        "en": "Unknown",
+        "de": "Unbekannt"
+      },
+      "payload": {
+        "length": 1,
+        "type": "byte",
+        "note": "TFT-ControlUnit#1: Device Related?"
+      },
+      "state": {
+        "topic": "memory/0x0e",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      }
+    },
+    {
+      "address": "0x0f",
+      "unique_id": "mem_0x0f",
+      "channel": "memory",
+      "name": {
+        "en": "Unknown",
+        "de": "Unbekannt"
+      },
+      "description": {
+        "en": "Unknown",
+        "de": "Unbekannt"
+      },
+      "payload": {
+        "length": 1,
+        "type": "byte"
+      },
+      "state": {
+        "topic": "memory/0x0f",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      }
+    },
+    {
+      "address": "0x10",
+      "unique_id": "dev_cu_led_version",
+      "channel": "devices",
+      "name": {
+        "en": "LED-ControlUnit: Version",
+        "de": "LED-Bedienteil: Version"
+      },
+      "description": {
+        "en": "HW/SW-Version",
+        "de": "HW/SW-Version"
+      },
+      "payload": {
+        "length": 11,
+        "type": "char",
+        "class": "text"
+      },
+      "state": {
+        "topic": "devices/control_unit_led/version",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      }
+    },
+    {
+      "address": "0x11",
+      "unique_id": "mem_0x11",
+      "channel": "memory",
+      "name": {
+        "en": "Unknown",
+        "de": "Unbekannt"
+      },
+      "description": {
+        "en": "Unknown",
+        "de": "Unbekannt"
+      },
+      "payload": {
+        "length": 1,
+        "type": "byte",
+        "note": "LED-ControlUnit: Device Related?"
+      },
+      "state": {
+        "topic": "memory/0x11",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      }
+    },
+    {
+      "address": "0x12",
+      "unique_id": "mem_0x12",
+      "channel": "memory",
+      "name": {
+        "en": "Unknown",
+        "de": "Unbekannt"
+      },
+      "description": {
+        "en": "Unknown",
+        "de": "Unbekannt"
+      },
+      "payload": {
+        "length": 1,
+        "type": "byte"
+      },
+      "state": {
+        "topic": "memory/0x12",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      }
+    },
+    {
+      "address": "0x13",
+      "unique_id": "dev_1_version",
+      "channel": "devices",
+      "name": {
+        "en": "Other Device #1: Version",
+        "de": "Anderes Gerät #1: Version"
+      },
+      "description": {
+        "en": "HW/SW-Version",
+        "de": "HW/SW-Version"
+      },
+      "payload": {
+        "length": 11,
+        "type": "char",
+        "class": "text"
+      },
+      "state": {
+        "topic": "devices/other_device_1/version",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      }
+    },
+    {
+      "address": "0x14",
+      "unique_id": "mem_0x14",
+      "channel": "memory",
+      "name": {
+        "en": "Unknown",
+        "de": "Unbekannt"
+      },
+      "description": {
+        "en": "Unknown",
+        "de": "Unbekannt"
+      },
+      "payload": {
+        "length": 1,
+        "type": "byte",
+        "note": "Other Device #1: Device Related?"
+      },
+      "state": {
+        "topic": "memory/0x14",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      }
+    },
+    {
+      "address": "0x15",
+      "unique_id": "mem_0x15",
+      "channel": "memory",
+      "name": {
+        "en": "Unknown",
+        "de": "Unbekannt"
+      },
+      "description": {
+        "en": "Unknown",
+        "de": "Unbekannt"
+      },
+      "payload": {
+        "length": 1,
+        "type": "byte"
+      },
+      "state": {
+        "topic": "memory/0x15",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      }
+    },
+    {
+      "address": "0x16",
+      "unique_id": "dev_2_version",
+      "channel": "devices",
+      "name": {
+        "en": "Other Device #2: Version",
+        "de": "Anderes Gerät #2: Version"
+      },
+      "description": {
+        "en": "HW/SW-Version",
+        "de": "HW/SW-Version"
+      },
+      "payload": {
+        "length": 11,
+        "type": "char",
+        "class": "text"
+      },
+      "state": {
+        "topic": "devices/other_device_2/version",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      }
+    },
+    {
+      "address": "0x17",
+      "unique_id": "mem_0x17",
+      "channel": "memory",
+      "name": {
+        "en": "Unknown",
+        "de": "Unbekannt"
+      },
+      "description": {
+        "en": "Unknown",
+        "de": "Unbekannt"
+      },
+      "payload": {
+        "length": 1,
+        "type": "byte",
+        "note": "Other Device #2: Device Related?"
+      },
+      "state": {
+        "topic": "memory/0x17",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      }
+    },
+    {
+      "address": "0x18",
+      "unique_id": "vent_summer_ventilation_mode",
+      "channel": "ventilation",
+      "name": {
+        "en": "Ventilation Summer Mode",
+        "de": "Sommerlüftung-Modus"
+      },
+      "description": {
+        "en": "Summer ventilation status for devices without by-pass flap.Settings: inactive, active",
+        "de": "Sommerlüftung-Status für Geräte ohne BypassklappeEinstellungen: inaktiv, aktiv"
+      },
+      "payload": {
+        "length": 1,
+        "type": "byte",
+        "class": "enum",
+        "options": {
+          "00": "Unavailable",
+          "73": "Inactive",
+          "f3": "Active"
+        }
+      },
+      "state": {
+        "topic": "ventilation/summer/mode",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      },
+      "command": {
+        "topic": "ventilation/summer/mode/Set",
+        "retain": true,
+        "qos": 0
+      }
+    },
+    {
+      "address": "0x19",
+      "unique_id": "dev_slave_version",
+      "channel": "devices",
+      "name": {
+        "en": "Slave Version",
+        "de": "Slave Version"
+      },
+      "description": {
+        "en": "HW/SW-Version",
+        "de": "HW/SW-Version"
+      },
+      "payload": {
+        "length": 11,
+        "type": "char",
+        "class": "text"
+      },
+      "state": {
+        "topic": "devices/slave/version",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      }
+    },
+    {
+      "address": "0x1a",
+      "unique_id": "mem_0x1a",
+      "channel": "memory",
+      "name": {
+        "en": "Unknown",
+        "de": "Unbekannt"
+      },
+      "description": {
+        "en": "Unknown",
+        "de": "Unbekannt"
+      },
+      "payload": {
+        "length": 1,
+        "type": "byte",
+        "note": "Unknown, 00=Missing Device?, 0d=Healthy"
+      },
+      "state": {
+        "topic": "memory/0x1a",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      }
+    },
+    {
+      "address": "0x1b",
+      "unique_id": "bypass_mode",
+      "channel": "bypass",
+      "name": {
+        "en": "Bypass Mode",
+        "de": "By-pass-modus"
+      },
+      "description": {
+        "en": "By-pass mode.Settings: Unavailable, Inactive, ActiveFactory settings: Active",
+        "de": "Bypass modus.Einstellungen: Nicht Vorhanden, Inaktiv, AktivWerkseinstellung: Aktiv"
+      },
+      "payload": {
+        "length": 2,
+        "type": "byte",
+        "class": "enum",
+        "default": "7f00",
+        "options": {
+          "7300": "Unavailable",
+          "7700": "Inactive",
+          "7f00": "Active"
+        }
+      },
+      "state": {
+        "topic": "bypass/mode",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      },
+      "command": {
+        "topic": "bypass/mode/Set",
+        "retain": true,
+        "qos": 0
+      }
+    },
+    {
+      "address": "0x1c",
+      "unique_id": "dev_ptc_defroster_version",
+      "channel": "devices",
+      "name": {
+        "en": "PTC-Defroster Version",
+        "de": "PTC-Defroster Version"
+      },
+      "description": {
+        "en": "HW/SW-Version",
+        "de": "HW/SW-Version"
+      },
+      "payload": {
+        "length": 11,
+        "type": "char",
+        "class": "text"
+      },
+      "state": {
+        "topic": "devices/ptc_defroster/version",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      }
+    },
+    {
+      "address": "0x1d",
+      "unique_id": "mem_0x1d",
+      "channel": "memory",
+      "name": {
+        "en": "Unknown",
+        "de": "Unbekannt"
+      },
+      "description": {
+        "en": "Unknown",
+        "de": "Unbekannt"
+      },
+      "payload": {
+        "length": 1,
+        "type": "byte"
+      },
+      "state": {
+        "topic": "memory/0x1d",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      }
+    },
+    {
+      "address": "0x1e",
+      "unique_id": "defroster_brine_mode",
+      "channel": "defroster",
+      "name": {
+        "en": "Brine Defroster Mode",
+        "de": "Sole-Defroster-Modus"
+      },
+      "description": {
+        "en": "Brine Defroster ModeSettings: Unavailable, Inactive, ActiveFactory setting: Active",
+        "de": "Sole-Defroster ModusEinstellungen: Nicht vorhanden, Inaktiv, AktivWerkseinstellung: Aktiv"
+      },
+      "payload": {
+        "length": 1,
+        "type": "byte",
+        "class": "enum",
+        "default": "08",
+        "options": {
+          "10": "Unavailable",
+          "0c": "Inactive",
+          "1c": "Active"
+        }
+      },
+      "state": {
+        "topic": "defroster/brine_defroster/mode",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      },
+      "command": {
+        "topic": "defroster/brine_defroster/mode/Set",
+        "retain": true,
+        "qos": 0
+      }
+    },
+    {
+      "address": "0x1f",
+      "unique_id": "dev_3_version",
+      "channel": "devices",
+      "name": {
+        "en": "Other Device #3: Version",
+        "de": "Anderes Gerät #3: Version"
+      },
+      "description": {
+        "en": "HW/SW-Version",
+        "de": "HW/SW-Version"
+      },
+      "payload": {
+        "length": 11,
+        "type": "char",
+        "class": "text"
+      },
+      "state": {
+        "topic": "devices/other_device_3/version",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      }
+    },
+    {
+      "address": "0x20",
+      "unique_id": "mem_0x20",
+      "channel": "memory",
+      "name": {
+        "en": "Unknown",
+        "de": "Unbekannt"
+      },
+      "description": {
+        "en": "Unknown",
+        "de": "Unbekannt"
+      },
+      "payload": {
+        "length": 1,
+        "type": "byte",
+        "note": "Other Device #4: Device Related?"
+      },
+      "state": {
+        "topic": "memory/0x20",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      }
+    },
+    {
+      "address": "0x21",
+      "unique_id": "post_heating_mode",
+      "channel": "post_heating",
+      "name": {
+        "en": "Post Heating Mode",
+        "de": "Nachheizung-Modus"
+      },
+      "description": {
+        "en": "Post Heating ModeSettings: Unavailable, Inactive, ActiveFactory setting: Unavailable",
+        "de": "Nachheizung-ModusEinstellungen: Nicht Vorhanden, Inaktiv, AktivWerkseinstellung: Nicht Vorhanden"
+      },
+      "payload": {
+        "length": 1,
+        "type": "byte",
+        "class": "enum",
+        "default": "00",
+        "options": {
+          "00": "Unavailable",
+          "04": "Inactive",
+          "0c": "Active"
+        }
+      },
+      "state": {
+        "topic": "post_heating/mode",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      },
+      "command": {
+        "topic": "post_heating/mode/Set",
+        "retain": true,
+        "qos": 0
+      }
+    },
+    {
+      "address": "0x22",
+      "unique_id": "dev_4_version",
+      "channel": "devices",
+      "name": {
+        "en": "Other Device #4: Version",
+        "de": "Anderes Gerät #4: Version"
+      },
+      "description": {
+        "en": "HW/SW-Version",
+        "de": "HW/SW-Version"
+      },
+      "payload": {
+        "length": 11,
+        "type": "char",
+        "class": "text"
+      },
+      "state": {
+        "topic": "devices/other_device_4/version",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      }
+    },
+    {
+      "address": "0x23",
+      "unique_id": "mem_0x23",
+      "channel": "memory",
+      "name": {
+        "en": "Unknown",
+        "de": "Unbekannt"
+      },
+      "description": {
+        "en": "Unknown",
+        "de": "Unbekannt"
+      },
+      "payload": {
+        "length": 1,
+        "type": "byte",
+        "note": "Other Device #5: Device Related?"
+      },
+      "state": {
+        "topic": "memory/0x23",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      }
+    },
+    {
+      "address": "0x24",
+      "unique_id": "ghe_mode",
+      "channel": "ground_pipe_diverter_valve",
+      "name": {
+        "en": "GHE-Flap Mode",
+        "de": "EWT-Klappe-Modus"
+      },
+      "description": {
+        "en": "Geothermal Heat Exchnger Flap Mode.Setting: Unavailable, Inactive, ActiveFactory setting: Unavailable",
+        "de": "Erd-Wärme-Tauscher-Klappe Modus.Einstellungen: Nicht Vorhanden, Inaktiv, AktivWerkseinstellung: Nicht Vorhanden"
+      },
+      "payload": {
+        "length": 1,
+        "type": "byte",
+        "class": "enum",
+        "default": "00",
+        "options": {
+          "00": "Unavailable",
+          "04": "Inactive",
+          "0c": "Active"
+        }
+      },
+      "state": {
+        "topic": "ground_pipe_diverter_valve/mode",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      },
+      "command": {
+        "topic": "ground_pipe_diverter_valve/mode/Set",
+        "retain": true,
+        "qos": 0
+      }
+    },
+    {
+      "address": "0x25",
+      "unique_id": "mem_0x25",
+      "channel": "memory",
+      "name": {
+        "en": "Unknown",
+        "de": "Unbekannt"
+      },
+      "description": {
+        "en": "Unknown",
+        "de": "Unbekannt"
+      },
+      "payload": {
+        "length": 1,
+        "type": "byte",
+        "note": "Ping also in Standby, value always 0x36; different day, no 0x3e, different day: 0x36"
+      },
+      "state": {
+        "topic": "memory/0x25",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      }
+    },
+    {
+      "address": "0x26",
+      "unique_id": "sys_op_hours_total",
+      "channel": "system",
+      "name": {
+        "en": "Total operating hours",
+        "de": "Gestamtbetriebsstunden"
+      },
+      "description": {
+        "en": "Overall operating hours (time during which the device is connected to the power supply)",
+        "de": "Gesamtbetriebsstunden (Zeit, die das Gerät unter Netzspannung steht)"
+      },
+      "payload": {
+        "length": 5,
+        "type": "counter",
+        "class": "time",
+        "unit_of_measurement": "min"
+      },
+      "state": {
+        "topic": "system/operating_hours/total",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      },
+      "command": {
+        "topic": "system/operating_hours/total/Set",
+        "retain": true,
+        "qos": 0
+      }
+    },
+    {
+      "address": "0x27",
+      "unique_id": "vent_selection_active",
+      "channel": "ventilation",
+      "name": {
+        "en": "Ventilation Active Level or Preset",
+        "de": ""
+      },
+      "description": {
+        "en": "",
+        "de": ""
+      },
+      "payload": {
+        "length": 1,
+        "type": "byte",
+        "class": "enum",
+        "default": "01",
+        "options": {
+          "01": "Preset 1",
+          "02": "Preset 2",
+          "03": "Preset 3",
+          "04": "Boost",
+          "05": "Abwesend",
+          "06": "Auto",
+          "07": "Level 1",
+          "08": "Level 2",
+          "09": "Level 3",
+          "0a": "Level 4",
+          "0b": "Level 5",
+          "0c": "Level 6",
+          "0d": "Level 7"
+        }
+      },
+      "state": {
+        "topic": "ventilation/selection/active",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      }
+    },
+    {
+      "address": "0x28",
+      "unique_id": "vent_selection",
+      "channel": "ventilation",
+      "name": {
+        "en": "Ventilation Selected Level or Preset",
+        "de": ""
+      },
+      "description": {
+        "en": "",
+        "de": ""
+      },
+      "payload": {
+        "length": 1,
+        "type": "byte",
+        "class": "enum",
+        "default": "01",
+        "options": {
+          "01": "Preset 1",
+          "02": "Preset 2",
+          "03": "Preset 3",
+          "04": "Boost",
+          "05": "Abwesend",
+          "06": "Auto",
+          "07": "Level 1",
+          "08": "Level 2",
+          "09": "Level 3",
+          "0a": "Level 4",
+          "0b": "Level 5",
+          "0c": "Level 6",
+          "0d": "Level 7"
+        },
+        "note": "Setting 0x28, also sets 0x27 and 0x29 to the same value. Exception: 0x29 not set for value 04 (Boost). Probably 0x29 is the previous value to jump back after Boost"
+      },
+      "state": {
+        "topic": "ventilation/selection",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      },
+      "command": {
+        "topic": "ventilation/selection/Set",
+        "retain": true,
+        "qos": 0
+      }
+    },
+    {
+      "address": "0x29",
+      "unique_id": "vent_selection_fallback",
+      "channel": "ventilation",
+      "name": {
+        "en": "Ventilation Fallback Level or Preset",
+        "de": ""
+      },
+      "description": {
+        "en": "",
+        "de": ""
+      },
+      "payload": {
+        "length": 1,
+        "type": "byte",
+        "class": "enum",
+        "default": "01",
+        "options": {
+          "01": "Preset 1",
+          "02": "Preset 2",
+          "03": "Preset 3",
+          "05": "Abwesend",
+          "06": "Auto",
+          "07": "Level 1",
+          "08": "Level 2",
+          "09": "Level 3",
+          "0a": "Level 4",
+          "0b": "Level 5",
+          "0c": "Level 6",
+          "0d": "Level 7"
+        }
+      },
+      "state": {
+        "topic": "ventilation/selection/fallback",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      }
+    },
+    {
+      "address": "0x2a",
+      "unique_id": "vent_selection_op_mode",
+      "channel": "ventilation",
+      "name": {
+        "en": "Ventilation Operating Mode",
+        "de": ""
+      },
+      "description": {
+        "en": "",
+        "de": ""
+      },
+      "payload": {
+        "length": 1,
+        "type": "byte",
+        "class": "enum",
+        "default": "00",
+        "options": {
+          "00": "Supply and Extract",
+          "01": "Extract",
+          "02": "Supply"
+        }
+      },
+      "state": {
+        "topic": "ventilation/selection/operating_mode",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      },
+      "command": {
+        "topic": "ventilation/selection/operating_mode/Set",
+        "retain": true,
+        "qos": 0
+      }
+    },
+    {
+      "address": "0x2b",
+      "unique_id": "vent_selection_op_mode_fallback",
+      "channel": "ventilation",
+      "name": {
+        "en": "Ventilation Operating Mode Fallback",
+        "de": ""
+      },
+      "description": {
+        "en": "",
+        "de": "Lüfter"
+      },
+      "payload": {
+        "length": 1,
+        "type": "byte",
+        "class": "enum",
+        "default": "00",
+        "options": {
+          "00": "Supply and Extract",
+          "01": "Extract",
+          "02": "Supply"
+        }
+      },
+      "state": {
+        "topic": "ventilation/selection/operating_mode/fallback",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      }
+    },
+    {
+      "address": "0x2c",
+      "unique_id": "mem_0x2c",
+      "channel": "memory",
+      "name": {
+        "en": "Unknown",
+        "de": "Unbekannt"
+      },
+      "description": {
+        "en": "Unknown",
+        "de": "Unbekannt"
+      },
+      "payload": {
+        "length": 1,
+        "type": "byte",
+        "note": "Send when wake up from stb"
+      },
+      "state": {
+        "topic": "memory/0x2c",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      }
+    },
+    {
+      "address": "0x2d",
+      "unique_id": "mem_0x2d",
+      "channel": "memory",
+      "name": {
+        "en": "Unknown",
+        "de": "Unbekannt"
+      },
+      "description": {
+        "en": "Unknown",
+        "de": "Unbekannt"
+      },
+      "payload": {
+        "length": 1,
+        "type": "byte",
+        "note": "Send when wake up from stb"
+      },
+      "state": {
+        "topic": "memory/0x2d",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      }
+    },
+    {
+      "address": "0x2e",
+      "unique_id": "vent_fan_speed_reduced",
+      "channel": "ventilation",
+      "name": {
+        "en": "Fan Speed Reduced",
+        "de": "Lüftung Reduziert"
+      },
+      "description": {
+        "en": "Percentage adjustments of the reduced fan speed (FS1 on LCD control unit).Setting logic: 17 % < FS1 < FS2Setting range: 17..100% in 1%-stepsFactory setting: 20%",
+        "de": "Prozentuale Einstellunge der reduzierten Lüftung (LS1 am LCD-Bedienteil).Einstelllogik: 17 % < LS1 < LS2Einstellbereich: 17..100% in 1%-SchritteWerkseinstellung: 20%"
+      },
+      "payload": {
+        "length": 1,
+        "type": "int",
+        "signed": false,
+        "class": "percent",
+        "decimals": 0,
+        "default": 20,
+        "min": 17,
+        "max": 100,
+        "step": 1,
+        "unit_of_measurement": "%",
+        "note": "If a LED control unit available on the bus, this setting cannot be set. LED levels prime."
+      },
+      "state": {
+        "topic": "ventilation/fan_speed_reduced",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      },
+      "command": {
+        "topic": "ventilation/fan_speed_reduced/Set",
+        "retain": true,
+        "qos": 0
+      }
+    },
+    {
+      "address": "0x2f",
+      "unique_id": "vent_fan_speed_nominal",
+      "channel": "ventilation",
+      "name": {
+        "en": "Fan Speed Nominal",
+        "de": "Lüftung Nominal"
+      },
+      "description": {
+        "en": "Percentage adjustments of the nominal fan speed (FS2 on LCD control unit).Setting logic: FS1 < FS2 < FS3Setting range: 17..100% in 1%-stepsFactory setting: 50%",
+        "de": "Prozentuale Einstellunge der Nennlüftung (LS2 am LCD-Bedienteil).Einstelllogik: LS1 < LS2 < LS3Einstellbereich: 17..100% in 1%-SchritteWerkseinstellung: 50%"
+      },
+      "payload": {
+        "length": 1,
+        "type": "int",
+        "signed": false,
+        "class": "percent",
+        "decimals": 0,
+        "default": 50,
+        "min": 17,
+        "max": 100,
+        "step": 1,
+        "unit_of_measurement": "%",
+        "note": "If a LED control unit available on the bus, this setting cannot be set. LED levels prime."
+      },
+      "state": {
+        "topic": "ventilation/fan_speed_nominal",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      },
+      "command": {
+        "topic": "ventilation/fan_speed_nominal/Set",
+        "retain": true,
+        "qos": 0
+      }
+    },
+    {
+      "address": "0x30",
+      "unique_id": "vent_fan_speed_purge",
+      "channel": "ventilation",
+      "name": {
+        "en": "Fan Speed Purge",
+        "de": "Lüftung Intensiv"
+      },
+      "description": {
+        "en": "Percentage adjustments of the purge fan speed 3 (FS3 on LCD control unit).Setting logic: FS2 < FS3 < 100 %Setting range: 17..100% in 1%-stepsFactory setting: 80%",
+        "de": "Prozentuale Einstellunge der Intensivlüftung (LS3 am LCD-Bedienteil).Einstelllogik: LS2 < LS3 < 100 %Einstellbereich: 17..100% in 1%-SchritteWerkseinstellung: 80%"
+      },
+      "payload": {
+        "length": 1,
+        "type": "int",
+        "signed": false,
+        "class": "percent",
+        "decimals": 0,
+        "default": 80,
+        "min": 17,
+        "max": 100,
+        "step": 1,
+        "unit_of_measurement": "%",
+        "note": "If a LED control unit available on the bus, this setting cannot be set. LED levels prime."
+      },
+      "state": {
+        "topic": "ventilation/fan_speed_purge",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      },
+      "command": {
+        "topic": "ventilation/fan_speed_purge/Set",
+        "retain": true,
+        "qos": 0
+      }
+    },
+    {
+      "address": "0x31",
+      "unique_id": "vent_imbalance_group_1",
+      "channel": "ventilation",
+      "name": {
+        "en": "Ventilation Imbalance Group 1",
+        "de": "Lüfter Disbalance Gruppe 1"
+      },
+      "description": {
+        "en": "Imbalance between supply and extract air fans. Fan Speed 1+2+reduced.Setting range: -50..50% in 1%-stepsFactory setting: 9%",
+        "de": "Disbalance zwischen Zuluft und Abluft. Lüfterstufe 1+2 oder Lüfterstufe 1.Einstellungsbereich: -50..50% in 1%-SchritteWerkseinstellung: 9%"
+      },
+      "payload": {
+        "length": 1,
+        "type": "int",
+        "signed": true,
+        "class": "percent",
+        "decimals": 0,
+        "default": 9,
+        "min": -50,
+        "max": 50,
+        "step": 1,
+        "unit_of_measurement": "%"
+      },
+      "state": {
+        "topic": "ventilation/imbalance_1",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      },
+      "command": {
+        "topic": "ventilation/imbalance_1/Set",
+        "retain": true,
+        "qos": 0
+      }
+    },
+    {
+      "address": "0x32",
+      "unique_id": "vent_imbalance_group_2",
+      "channel": "ventilation",
+      "name": {
+        "en": "Ventilation Imbalance Group 2",
+        "de": "Lüfter Disbalance Gruppe 2"
+      },
+      "description": {
+        "en": "Imbalance between supply and extract air fans. Fan Speed 3+4+5+norminal.Setting range: -50..50% in 1%-stepsFactory setting: 15%",
+        "de": "Disbalance zwischen Zuluft und Abluft. Lüfterstufe 3+4+5 oder Lüfterstufe 2.Einstellungsbereich: -50..50% in 1%-SchritteWerkseinstellung: 15%"
+      },
+      "payload": {
+        "length": 1,
+        "type": "int",
+        "signed": true,
+        "class": "percent",
+        "decimals": 0,
+        "default": 15,
+        "min": -50,
+        "max": 50,
+        "step": 1,
+        "unit_of_measurement": "%"
+      },
+      "state": {
+        "topic": "ventilation/imbalance_2",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      },
+      "command": {
+        "topic": "ventilation/imbalance_2/Set",
+        "retain": true,
+        "qos": 0
+      }
+    },
+    {
+      "address": "0x33",
+      "unique_id": "vent_imbalance_group_3",
+      "channel": "ventilation",
+      "name": {
+        "en": "Ventilation Imbalance Group 3",
+        "de": "Lüfter Disbalance Gruppe 3"
+      },
+      "description": {
+        "en": "Imbalance between supply and extract air fans. Fan Speed 6+7+purge.Setting range: -50..50% in 1%-stepsFactory setting: 17%",
+        "de": "Disbalance zwischen Zuluft und Abluft. Lüfterstufe 6+7 oder Lüfterstufe 3.Einstellungsbereich: -50..50% in 1%-SchritteWerkseinstellung: 17%"
+      },
+      "payload": {
+        "length": 1,
+        "type": "int",
+        "signed": true,
+        "class": "percent",
+        "decimals": 0,
+        "default": 17,
+        "min": -50,
+        "max": 50,
+        "step": 1,
+        "unit_of_measurement": "%"
+      },
+      "state": {
+        "topic": "ventilation/imblanace_3",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      },
+      "command": {
+        "topic": "ventilation/imblanace_3/Set",
+        "retain": true,
+        "qos": 0
+      }
+    },
+    {
+      "address": "0x34",
+      "unique_id": "vent_fan_speed_1",
+      "channel": "ventilation",
+      "name": {
+        "en": "Fan Speed 1",
+        "de": "Lüftungsstufe 1"
+      },
+      "description": {
+        "en": "Percentage adjustments of fan speed 1 (FS1) for LED Control Unit.Setting range: 0..100% in 1%-stepsFactory setting: 17%",
+        "de": "Prozentuale Einstellung der Lüftungsstufe 1 (LS1) mit LED-Bedienteil.Einstellbereich: 0..100% in 1%-SchritteWerkseinstellung: 17%"
+      },
+      "payload": {
+        "length": 1,
+        "type": "int",
+        "signed": false,
+        "class": "percent",
+        "decimals": 0,
+        "default": 17,
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "unit_of_measurement": "%"
+      },
+      "state": {
+        "topic": "ventilation/fan_speed_1",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      },
+      "command": {
+        "topic": "ventilation/fan_speed_1/Set",
+        "retain": true,
+        "qos": 0
+      }
+    },
+    {
+      "address": "0x35",
+      "unique_id": "vent_fan_speed_2",
+      "channel": "ventilation",
+      "name": {
+        "en": "Fan Speed 2",
+        "de": "Lüftungsstufe 2"
+      },
+      "description": {
+        "en": "Percentage adjustments of fan speed 2 (FS2) for LED Control Unit.Setting range: 0..100% in 1%-stepsFactory setting: 29%",
+        "de": "Prozentuale Einstellung der Lüftungsstufe 2 (LS2) mit LED-Bedienteil.Einstellbereich: 0..100% in 1%-SchritteWerkseinstellung: 29%"
+      },
+      "payload": {
+        "length": 1,
+        "type": "int",
+        "signed": false,
+        "class": "percent",
+        "decimals": 0,
+        "default": 29,
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "unit_of_measurement": "%"
+      },
+      "state": {
+        "topic": "ventilation/fan_speed_2",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      },
+      "command": {
+        "topic": "ventilation/fan_speed_2/Set",
+        "retain": true,
+        "qos": 0
+      }
+    },
+    {
+      "address": "0x36",
+      "unique_id": "vent_fan_speed_3",
+      "channel": "ventilation",
+      "name": {
+        "en": "Fan Speed 3",
+        "de": "Lüftungsstufe 3"
+      },
+      "description": {
+        "en": "Percentage adjustments of fan speed 3 (FS3) for LED Control Unit.Setting range: 0..100% in 1%-stepsFactory setting: 41%",
+        "de": "Prozentuale Einstellung der Lüftungsstufe 3 (LS3) mit LED-Bedienteil.Einstellbereich: 0..100% in 1%-SchritteWerkseinstellung: 41%"
+      },
+      "payload": {
+        "length": 1,
+        "type": "int",
+        "signed": false,
+        "class": "percent",
+        "decimals": 0,
+        "default": 41,
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "unit_of_measurement": "%"
+      },
+      "state": {
+        "topic": "ventilation/fan_speed_3",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      },
+      "command": {
+        "topic": "ventilation/fan_speed_3/Set",
+        "retain": true,
+        "qos": 0
+      }
+    },
+    {
+      "address": "0x37",
+      "unique_id": "vent_fan_speed_4",
+      "channel": "ventilation",
+      "name": {
+        "en": "Fan Speed 4",
+        "de": "Lüftungsstufe 4"
+      },
+      "description": {
+        "en": "Percentage adjustments of fan speed 4 (FS4) for LED Control Unit.Setting range: 0..100% in 1%-stepsFactory setting: 53%",
+        "de": "Prozentuale Einstellung der Lüftungsstufe 4 (LS4) mit LED-Bedienteil.Einstellbereich: 0..100% in 1%-SchritteWerkseinstellung: 53%"
+      },
+      "payload": {
+        "length": 1,
+        "type": "int",
+        "signed": false,
+        "class": "percent",
+        "decimals": 0,
+        "default": 53,
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "unit_of_measurement": "%"
+      },
+      "state": {
+        "topic": "ventilation/fan_speed_4",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      },
+      "command": {
+        "topic": "ventilation/fan_speed_4/Set",
+        "retain": true,
+        "qos": 0
+      }
+    },
+    {
+      "address": "0x38",
+      "unique_id": "vent_fan_speed_5",
+      "channel": "ventilation",
+      "name": {
+        "en": "Fan Speed 5",
+        "de": "Lüftungsstufe 5"
+      },
+      "description": {
+        "en": "Percentage adjustments of fan speed 5 (FS5) for LED Control Unit.Setting range: 0..100% in 1%-stepsFactory setting: 65%",
+        "de": "Prozentuale Einstellung der Lüftungsstufe 5 (LS5) mit LED-Bedienteil.Einstellbereich: 0..100% in 1%-SchritteWerkseinstellung: 65%"
+      },
+      "payload": {
+        "length": 1,
+        "type": "int",
+        "signed": false,
+        "class": "percent",
+        "decimals": 0,
+        "default": 65,
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "unit_of_measurement": "%"
+      },
+      "state": {
+        "topic": "ventilation/fan_speed_5",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      },
+      "command": {
+        "topic": "ventilation/fan_speed_5/Set",
+        "retain": true,
+        "qos": 0
+      }
+    },
+    {
+      "address": "0x39",
+      "unique_id": "vent_fan_speed_6",
+      "channel": "ventilation",
+      "name": {
+        "en": "Fan Speed 6",
+        "de": "Lüftungsstufe 6"
+      },
+      "description": {
+        "en": "Percentage adjustments of fan speed 6 (FS6) for LED Control Unit.Setting range: 0..100% in 1%-stepsFactory setting: 74%",
+        "de": "Prozentuale Einstellung der Lüftungsstufe 6 (LS6) mit LED-Bedienteil.Einstellbereich: 0..100% in 1%-SchritteWerkseinstellung: 74%"
+      },
+      "payload": {
+        "length": 1,
+        "type": "int",
+        "signed": false,
+        "class": "percent",
+        "decimals": 0,
+        "default": 74,
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "unit_of_measurement": "%"
+      },
+      "state": {
+        "topic": "ventilation/fan_speed_6",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      },
+      "command": {
+        "topic": "ventilation/fan_speed_6/Set",
+        "retain": true,
+        "qos": 0
+      }
+    },
+    {
+      "address": "0x3a",
+      "unique_id": "vent_fan_speed_7",
+      "channel": "ventilation",
+      "name": {
+        "en": "Fan Speed 7",
+        "de": "Lüftungsstufe 7"
+      },
+      "description": {
+        "en": "Percentage adjustments of fan speed 7 (FS7) for LED Control Unit.Setting range: 0..100% in 1%-stepsFactory setting: 100%",
+        "de": "Prozentuale Einstellung der Lüftungsstufe 7 (LS7) mit LED-Bedienteil.Einstellbereich: 0..100% in 1%-SchritteWerkseinstellung: 100%"
+      },
+      "payload": {
+        "length": 1,
+        "type": "int",
+        "signed": false,
+        "class": "percent",
+        "decimals": 0,
+        "default": 100,
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "unit_of_measurement": "%"
+      },
+      "state": {
+        "topic": "ventilation/fan_speed_7",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      },
+      "command": {
+        "topic": "ventilation/fan_speed_7/Set",
+        "retain": true,
+        "qos": 0
+      }
+    },
+    {
+      "address": "0x3b",
+      "unique_id": "vent_boost_duration",
+      "channel": "ventilation",
+      "name": {
+        "en": "Boost Ventilation Duration",
+        "de": "Stoßlüftungdauer"
+      },
+      "description": {
+        "en": "Time for boost ventilation, whereby the air volume flow of the boost ventilation corresponds to FS3.Setting range: 15..120min in 5min-stepsFactory setting: 15min",
+        "de": "Dauer der Stoßlüftung, wobei der Luftvolumenstrom der Stoßlüftung der LS3 entspricht.Einstellbereich: 15..120min in 5min-SchritteWerkseinstellung: 15min"
+      },
+      "payload": {
+        "length": 1,
+        "type": "int",
+        "signed": false,
+        "class": "time",
+        "decimals": 0,
+        "default": 15,
+        "min": 15,
+        "max": 120,
+        "step": 5,
+        "unit_of_measurement": "min"
+      },
+      "state": {
+        "topic": "ventilation/boost_duration",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      },
+      "command": {
+        "topic": "ventilation/boost_duration/Set",
+        "retain": true,
+        "qos": 0
+      }
+    },
+    {
+      "address": "0x3c",
+      "unique_id": "vent_unoccupied_intensity",
+      "channel": "ventilation",
+      "name": {
+        "en": "Ventilation Intensity during Non-Cccupation",
+        "de": "Lüftungsintensität während Abwesenheit"
+      },
+      "description": {
+        "en": "Ventilation intensity for the duration of non-occupation for humidity protection, whereby the ventilation intensity of the active duration of the time interval corresponds to FS1.Setting range: 15..45min/h in 15min/h-stepsFactory setting: 15min/h",
+        "de": "Lüftungsintensität für die Dauer der Abwesenheit zum Feuchteschutz, wobei die Lüftungsintensität der aktiven Dauer des Zeitintervalls der LS1 entspricht.Einstellbereich: 15..45min/h in 15min/h-SchritteWerkseinstellung: 15min/h"
+      },
+      "payload": {
+        "length": 1,
+        "type": "int",
+        "signed": false,
+        "class": "time_rate",
+        "decimals": 0,
+        "default": 15,
+        "min": 15,
+        "max": 45,
+        "step": 15,
+        "unit_of_measurement": "min/h"
+      },
+      "state": {
+        "topic": "ventilation/unoccupied/intensity",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      },
+      "command": {
+        "topic": "ventilation/unoccupied/intensity/Set",
+        "retain": true,
+        "qos": 0
+      }
+    },
+    {
+      "address": "0x3d",
+      "unique_id": "filter_runtime",
+      "channel": "filter_age",
+      "name": {
+        "en": "Filter Run-time",
+        "de": "Dauer der Filterlaufzeit"
+      },
+      "description": {
+        "en": "Duration of the filter run-time, whereby a maximum filter run-time of 90 days is recommended.Setting: 30 days..180 days in 10-day-stepsFactory setting: 90 days",
+        "de": "Dauer der Filterlaufzeit, wobei eine maximale Filterlaufzeit von 90 Tagen empfohlen wird.Einstellungen: 30 Tage..180 Tage in 10-Tages-SchrittenWerkseinstellung: 90 Tage"
+      },
+      "payload": {
+        "length": 5,
+        "type": "counter",
+        "class": "time",
+        "unit_of_measurement": "min"
+      },
+      "state": {
+        "topic": "filter_age/runtime",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      },
+      "command": {
+        "topic": "filter_age/runtime/Set",
+        "retain": true,
+        "qos": 0
+      }
+    },
+    {
+      "address": "0x3e",
+      "unique_id": "filter_remaining_runtime",
+      "channel": "filter_age",
+      "name": {
+        "en": "Remaining run-time of the filter",
+        "de": "Filterrestlaufzeit"
+      },
+      "description": {
+        "en": "Current remaining run-time of the filter. The filter run-time is decremented daily.",
+        "de": "Aktuelle Filterrestlaufzeit. Die Filterrestlaufzeit wird bei Betrieb des Lüftungsgerätes kalendertäglich heruntergezählt."
+      },
+      "payload": {
+        "length": 5,
+        "type": "counter",
+        "class": "time",
+        "unit_of_measurement": "min"
+      },
+      "state": {
+        "topic": "filter_age/runtime/remaining",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      },
+      "command": {
+        "topic": "filter_age/runtime/remaining/Set",
+        "retain": true,
+        "qos": 0
+      }
+    },
+    {
+      "address": "0x3f",
+      "unique_id": "filter_remaining_warning",
+      "channel": "filter_age",
+      "name": {
+        "en": "Remaining run-time warning threshold",
+        "de": "Filterrestlaufzeit Schwellwert"
+      },
+      "description": {
+        "en": "Threshold for remaining run-time of the filter.Factory setting: 10 days",
+        "de": "Schwelle für Filterrestlaufzeit.Werkseinstellung: 10 Tage"
+      },
+      "payload": {
+        "length": 5,
+        "type": "counter",
+        "class": "time",
+        "unit_of_measurement": "min",
+        "note": "LED ControlUnit only?"
+      },
+      "state": {
+        "topic": "filter_age/runtime/warning",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      },
+      "command": {
+        "topic": "filter_age/runtime/warning/Set",
+        "retain": true,
+        "qos": 0
+      }
+    },
+    {
+      "address": "0x40",
+      "unique_id": "mem_0x40",
+      "channel": "memory",
+      "name": {
+        "en": "Unknown",
+        "de": "Unbekannt"
+      },
+      "description": {
+        "en": "Unknown",
+        "de": "Unbekannt"
+      },
+      "payload": {
+        "length": 1,
+        "type": "byte"
+      },
+      "state": {
+        "topic": "memory/0x40",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      }
+    },
+    {
+      "address": "0x41",
+      "unique_id": "bypass_upper_threshold",
+      "channel": "bypass",
+      "name": {
+        "en": "Bypass Upper Threshold",
+        "de": "By-pass Obere Schwelle"
+      },
+      "description": {
+        "en": "By-pass high/upper threshold for maximum extract air temperature [t_ext_max].Setting range: 20.0..30.0°C in 0.5°C-stepsFactory setting: 25,0°C",
+        "de": "Bypass obere Schwelle für maximale Ablufttemperatur [t_abl_max].Einstellbereich: 20.0..30.0°C in 0.5°C-SchrittenWerkseinstellung: 25,0°C"
+      },
+      "payload": {
+        "length": 2,
+        "type": "int",
+        "signed": true,
+        "class": "temperature",
+        "decimals": 1,
+        "default": 21.5,
+        "min": 20,
+        "max": 30,
+        "step": 0.5,
+        "unit_of_measurement": "°C"
+      },
+      "state": {
+        "topic": "bypass/thresholds/upper_threshold",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      },
+      "command": {
+        "topic": "bypass/thresholds/upper_threshold/Set",
+        "retain": true,
+        "qos": 0
+      }
+    },
+    {
+      "address": "0x42",
+      "unique_id": "bypass_lower_threshold",
+      "channel": "bypass",
+      "name": {
+        "en": "Bypass Lower Threshold",
+        "de": "By-pass Untere Schwelle"
+      },
+      "description": {
+        "en": "By-pass lower threshold for minimum extract air temperature [t_ext_min].Setting range: 13.0..19.5°C in 0.5°C-stepsFactory setting: 18,0°C",
+        "de": "Bypass untere Schwelle für minimale Ablufttemperature [t_abl_min].Einstellbereich: 13.0..19.5°C in 0.5°C-SchrittenWerkseinstellung: 18,0°C"
+      },
+      "payload": {
+        "length": 2,
+        "type": "int",
+        "signed": true,
+        "class": "temperature",
+        "decimals": 1,
+        "default": 18,
+        "min": 13,
+        "max": 19.5,
+        "step": 0.5,
+        "unit_of_measurement": "°C"
+      },
+      "state": {
+        "topic": "bypass/thresholds/lower_threshold",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      },
+      "command": {
+        "topic": "bypass/thresholds/lower_threshold/Set",
+        "retain": true,
+        "qos": 0
+      }
+    },
+    {
+      "address": "0x43",
+      "unique_id": "bypass_hysteresis",
+      "channel": "bypass",
+      "name": {
+        "en": "Bypass Hysteresis",
+        "de": "By-pass Hysterese"
+      },
+      "description": {
+        "en": "By-pass hysteresis [H_ext].Setting range: 0.5..18.0K in 0.5K-stepsFactory setting: 0.5K",
+        "de": "Bypass Hysterese [H_abl].Einstellbereich: 0.5..18.0K in 0.5K-SchrittenWerkseinstellung: 0.5K"
+      },
+      "payload": {
+        "length": 1,
+        "type": "int",
+        "signed": false,
+        "class": "temperature",
+        "decimals": 1,
+        "default": 0.5,
+        "min": 0.5,
+        "max": 18,
+        "step": 0.5,
+        "unit_of_measurement": "K"
+      },
+      "state": {
+        "topic": "bypass/thresholds/hysteresis",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      },
+      "command": {
+        "topic": "bypass/thresholds/hysteresis/Set",
+        "retain": true,
+        "qos": 0
+      }
+    },
+    {
+      "address": "0x44",
+      "unique_id": "mem_0x44",
+      "channel": "memory",
+      "name": {
+        "en": "Unknown",
+        "de": "Unbekannt"
+      },
+      "description": {
+        "en": "Unknown",
+        "de": "Unbekannt"
+      },
+      "payload": {
+        "length": 1,
+        "type": "byte",
+        "note": "Ping as long as not in Standby, value always 0x20; Now 0x5d"
+      },
+      "state": {
+        "topic": "memory/0x44",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      }
+    },
+    {
+      "address": "0x45",
+      "unique_id": "mem_0x45",
+      "channel": "memory",
+      "name": {
+        "en": "Unknown",
+        "de": "Unbekannt"
+      },
+      "description": {
+        "en": "Unknown",
+        "de": "Unbekannt"
+      },
+      "payload": {
+        "length": 1,
+        "type": "byte"
+      },
+      "state": {
+        "topic": "memory/0x45",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      }
+    },
+    {
+      "address": "0x46",
+      "unique_id": "mem_0x46",
+      "channel": "memory",
+      "name": {
+        "en": "Unknown",
+        "de": "Unbekannt"
+      },
+      "description": {
+        "en": "Unknown",
+        "de": "Unbekannt"
+      },
+      "payload": {
+        "length": 1,
+        "type": "byte"
+      },
+      "state": {
+        "topic": "memory/0x46",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      }
+    },
+    {
+      "address": "0x47",
+      "unique_id": "fp_min_intake_air_temp",
+      "channel": "frost_protection",
+      "name": {
+        "en": "Frost Protection Minimum Intake Air Temperature",
+        "de": "Frostschutz Minimale Zulufttemperatur"
+      },
+      "description": {
+        "en": "Anti-freeze protection threshold minimum supply air temperature [t_int_min].Factory setting: 5.0 °C",
+        "de": "Frostschutzschwelle minimale Zulufttemperatur [t_aul_min].Werkseinstellung: 5.0°C"
+      },
+      "payload": {
+        "length": 2,
+        "type": "int",
+        "signed": true,
+        "class": "temperature",
+        "decimals": 1,
+        "default": 5,
+        "unit_of_measurement": "°C"
+      },
+      "state": {
+        "topic": "frost_protection/thresholds/min_intake_air_temperature",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      },
+      "command": {
+        "topic": "frost_protection/thresholds/min_intake_air_temperature/Set",
+        "retain": true,
+        "qos": 0
+      }
+    },
+    {
+      "address": "0x48",
+      "unique_id": "mem_0x48",
+      "channel": "memory",
+      "name": {
+        "en": "Unknown",
+        "de": "Unbekannt"
+      },
+      "description": {
+        "en": "Unknown",
+        "de": "Unbekannt"
+      },
+      "payload": {
+        "length": 1,
+        "type": "byte",
+        "note": "Send on reboot, value always 0x305"
+      },
+      "state": {
+        "topic": "memory/0x48",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      }
+    },
+    {
+      "address": "0x49",
+      "unique_id": "bypass_closed_below",
+      "channel": "bypass",
+      "name": {
+        "en": "Bypass Closed Below",
+        "de": "By-pass Geschlossen Unter"
+      },
+      "description": {
+        "en": "By-pass closed below.Setting range: 12.0..20.0°C in 0.5°C-stepsFactory setting: 13.0°C",
+        "de": "Bypass geschlossen unterhalb.Einstellbereich: 12.0..20.0°C in 0.5°C-SchrittenWerkseinstellung: 13.0°C"
+      },
+      "payload": {
+        "length": 2,
+        "type": "int",
+        "signed": true,
+        "class": "temperature",
+        "decimals": 1,
+        "default": 13,
+        "min": 12,
+        "max": 20,
+        "step": 0.5,
+        "unit_of_measurement": "°C"
+      },
+      "state": {
+        "topic": "bypass/thresholds/closed_below",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      },
+      "command": {
+        "topic": "bypass/thresholds/closed_below/Set",
+        "retain": true,
+        "qos": 0
+      }
+    },
+    {
+      "address": "0x4a",
+      "unique_id": "fp_safe",
+      "channel": "frost_protection",
+      "name": {
+        "en": "Frost Protection Safe Threshold",
+        "de": "Frostschutz-Schwelle Sicher"
+      },
+      "description": {
+        "en": "Anti-freeze protection threshold intake air safe.Factory setting: 0.0°C",
+        "de": "Frostschutzschwelle Außenluft sicher.Werkseinstellung: 0.0°C"
+      },
+      "payload": {
+        "length": 2,
+        "type": "int",
+        "signed": true,
+        "class": "temperature",
+        "decimals": 1,
+        "default": 0,
+        "unit_of_measurement": "°C"
+      },
+      "state": {
+        "topic": "frost_protection/thresholds/safe",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      },
+      "command": {
+        "topic": "frost_protection/thresholds/safe/Set",
+        "retain": true,
+        "qos": 0
+      }
+    },
+    {
+      "address": "0x4b",
+      "unique_id": "fp_eco",
+      "channel": "frost_protection",
+      "name": {
+        "en": "Frost Protection Eco Threshold",
+        "de": "Frostschutz-Schwelle Eco"
+      },
+      "description": {
+        "en": "Anti-freeze protection threshold intake air eco.Factory setting: -2.0 °C",
+        "de": "Frostschutzschwelle Außenluft eco.Werkseinstellung: -2.0°C"
+      },
+      "payload": {
+        "length": 2,
+        "type": "int",
+        "signed": true,
+        "class": "temperature",
+        "decimals": 1,
+        "default": -2,
+        "unit_of_measurement": "°C"
+      },
+      "state": {
+        "topic": "frost_protection/thresholds/eco",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      },
+      "command": {
+        "topic": "frost_protection/thresholds/eco/Set",
+        "retain": true,
+        "qos": 0
+      }
+    },
+    {
+      "address": "0x4c",
+      "unique_id": "fp_moisture_he",
+      "channel": "frost_protection",
+      "name": {
+        "en": "Frost Protection Moisture Heat Exchanger Threshold",
+        "de": "Frostschutz-Schwelle Feuchte-Wärmetauscher"
+      },
+      "description": {
+        "en": "Anti-freeze protection threshold intake air moisture heat exchanger.Factory setting: -8.0 °C",
+        "de": "Frostschutzschwelle Außenluft Feuchte-Wärmetauscher.Werkseinstellung: -8.0°C"
+      },
+      "payload": {
+        "length": 2,
+        "type": "int",
+        "signed": true,
+        "class": "temperature",
+        "decimals": 1,
+        "default": -8,
+        "unit_of_measurement": "°C"
+      },
+      "state": {
+        "topic": "frost_protection/thresholds/moisture_heat_exchanger",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      },
+      "command": {
+        "topic": "frost_protection/thresholds/moisture_heat_exchanger/Set",
+        "retain": true,
+        "qos": 0
+      }
+    },
+    {
+      "address": "0x4d",
+      "unique_id": "vent_auto_sensor_voltage_u_min",
+      "channel": "ventilation",
+      "name": {
+        "en": "Sensor Output Voltage Parameter U_min",
+        "de": "Sensorausgang Spannung-Parameter U_min"
+      },
+      "description": {
+        "en": "Voltage lower point (range start parameter p1) for a linear characteristic curve [U_min] for the fan speed.Setting range: 0..10VFactory setting: 8.0V",
+        "de": "Unterer Punkt für Spannung (Kennlinien-Endwert p1) für eine lineare Kennlinie [U_min] für die Lüfterdrehzahl.Einstellungungsbereich: 0..10VWerkseinstellung: 8.0V"
+      },
+      "payload": {
+        "length": 1,
+        "type": "int",
+        "signed": false,
+        "class": "voltage",
+        "decimals": 1,
+        "default": 8,
+        "unit_of_measurement": "V"
+      },
+      "state": {
+        "topic": "ventilation/automatic/sensor/voltage/u_min",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      },
+      "command": {
+        "topic": "ventilation/automatic/sensor/voltage/u_min/Set",
+        "retain": true,
+        "qos": 0
+      }
+    },
+    {
+      "address": "0x4e",
+      "unique_id": "vent_auto_sensor_voltage_n_min",
+      "channel": "ventilation",
+      "name": {
+        "en": "Sensor Output Voltage Parameter n_min",
+        "de": "Sensorausgang Spannung-Parameter n_min"
+      },
+      "description": {
+        "en": "Fan speed percentage lower point (range start parameter p1) for a linear characteristic curve [n_min] for the fan speed.Setting range: 17% to 100%Factory setting: 17%",
+        "de": "Unterer Punkt für Lüfterstufe in Prozent (Kennlinien-Startwert p1) für eine lineare Kennlinie [n_min] für die Lüfterdrehzahl.Einstellbereich: 17..100%Werkseinstellung: 17%"
+      },
+      "payload": {
+        "length": 1,
+        "type": "int",
+        "signed": false,
+        "class": "percent",
+        "decimals": 0,
+        "default": 17,
+        "unit_of_measurement": "%"
+      },
+      "state": {
+        "topic": "ventilation/automatic/sensor/voltage/n_min",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      },
+      "command": {
+        "topic": "ventilation/automatic/sensor/voltage/n_min/Set",
+        "retain": true,
+        "qos": 0
+      }
+    },
+    {
+      "address": "0x4f",
+      "unique_id": "vent_auto_sensor_voltage_u_max",
+      "channel": "ventilation",
+      "name": {
+        "en": "Sensor Output Voltage Parameter U_max",
+        "de": "Sensorausgang Spannung-Parameter U_max"
+      },
+      "description": {
+        "en": "Voltage upper point (range stop parameter p2) for a linear characteristic curve [U_max] for the fan speed.Setting range: 0..10VFactory setting: 1.7V",
+        "de": "Obere Punkt für Spannung (Kennlinien-Endwert p2) für eine lineare Kennlinie [U_max] für die Lüfterdrehzahl.Einstellbereich: 0..10VWerkseinstellung: 1.7V"
+      },
+      "payload": {
+        "length": 1,
+        "type": "int",
+        "signed": false,
+        "class": "voltage",
+        "decimals": 1,
+        "default": 1.7,
+        "unit_of_measurement": "V"
+      },
+      "state": {
+        "topic": "ventilation/automatic/sensor/voltage/u_max",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      },
+      "command": {
+        "topic": "ventilation/automatic/sensor/voltage/u_max/Set",
+        "retain": true,
+        "qos": 0
+      }
+    },
+    {
+      "address": "0x50",
+      "unique_id": "vent_auto_sensor_voltage_n_max",
+      "channel": "ventilation",
+      "name": {
+        "en": "Sensor Output Voltage Parameter n_max",
+        "de": "Sensorausgang Spannung-Parameter n_max"
+      },
+      "description": {
+        "en": "Fan speed percentage upper point (range stop parameter p2) for a linear characteristic curve [n_max] for the fan speed.Setting range: 17% to 100%Factory setting: 80%",
+        "de": "Obere Punkt für Lüfterstufe in Prozent (Kennlinien-Endwert p2) für eine lineare Kennlinie [n_max] für die Lüfterdrehzahl.Einstellbereich: 17..100%Werkseinstellung: 80%"
+      },
+      "payload": {
+        "length": 1,
+        "type": "int",
+        "signed": false,
+        "class": "percent",
+        "decimals": 0,
+        "default": 80,
+        "unit_of_measurement": "%"
+      },
+      "state": {
+        "topic": "ventilation/automatic/sensor/voltage/n_max",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      },
+      "command": {
+        "topic": "ventilation/automatic/sensor/voltage/n_max/Set",
+        "retain": true,
+        "qos": 0
+      }
+    },
+    {
+      "address": "0x51",
+      "unique_id": "vent_auto_sensor_current_i_min",
+      "channel": "ventilation",
+      "name": {
+        "en": "Sensor Output Current Parameter I_min",
+        "de": "Sensorausgang Strom-Parameter I_min"
+      },
+      "description": {
+        "en": "Current lower point (range start parameter p1) for a linear characteristic curve [I_min] for the fan speed.Setting range: 4.0..20.0mAFactory setting: 5.0mA",
+        "de": "Untere Punkt für Strom (Kennlinien-Startwert p1) für eine lineare Kennlinie [I_min] für die Lüfterdrehzahl.Einstellbereich: 4.0..20.0mAWerkseinstellung: 5.0mA"
+      },
+      "payload": {
+        "length": 1,
+        "type": "int",
+        "signed": false,
+        "class": "current",
+        "decimals": 1,
+        "default": 5,
+        "unit_of_measurement": "mA"
+      },
+      "state": {
+        "topic": "ventilation/automatic/sensor/current/i_min",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      },
+      "command": {
+        "topic": "ventilation/automatic/sensor/current/i_min/Set",
+        "retain": true,
+        "qos": 0
+      }
+    },
+    {
+      "address": "0x52",
+      "unique_id": "vent_auto_sensor_current_n_min",
+      "channel": "ventilation",
+      "name": {
+        "en": "Sensor Output Current Parametern_min",
+        "de": "Sensorausgang Strom-Parameter n_min"
+      },
+      "description": {
+        "en": "Fan speed percentage lower point (range start parameter p1) for a linear characteristic curve [n_min] for the fan speed.Setting range: 17% to 100%Factory setting: 20%",
+        "de": "Unterer Punkt für Lüfterstufe in Prozent (Kennlinien-Startwert p1) für eine lineare Kennlinie [n_min] für die Lüfterdrehzahl.Einstellbereich: 17..100%Werkseinstellung: 20%"
+      },
+      "payload": {
+        "length": 1,
+        "type": "int",
+        "signed": false,
+        "class": "percent",
+        "decimals": 0,
+        "default": 20,
+        "unit_of_measurement": "%"
+      },
+      "state": {
+        "topic": "ventilation/automatic/sensor/current/n_min",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      },
+      "command": {
+        "topic": "ventilation/automatic/sensor/current/n_min/Set",
+        "retain": true,
+        "qos": 0
+      }
+    },
+    {
+      "address": "0x53",
+      "unique_id": "vent_auto_sensor_current_i_max",
+      "channel": "ventilation",
+      "name": {
+        "en": "Sensor Output Current Parameter I_max",
+        "de": "Sensorausgang Strom-Parameter I_max"
+      },
+      "description": {
+        "en": "Current upper point (range stop parameter p2) for a linear characteristic curve [I_max] for the fan speed.Setting range: 4.0..20.0mAFactory setting: 19.0mA",
+        "de": "Obere Punkt für Strom (Kennlinien-Endwert p2) für eine lineare Kennlinie [I_max] für die Lüfterdrehzahl.Einstellbereich: 4.0..20.0mAWerkseinstellung: 19.0mA"
+      },
+      "payload": {
+        "length": 1,
+        "type": "int",
+        "signed": false,
+        "class": "current",
+        "decimals": 1,
+        "default": 19,
+        "unit_of_measurement": "mA"
+      },
+      "state": {
+        "topic": "ventilation/automatic/sensor/current/i_max",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      },
+      "command": {
+        "topic": "ventilation/automatic/sensor/current/i_max/Set",
+        "retain": true,
+        "qos": 0
+      }
+    },
+    {
+      "address": "0x54",
+      "unique_id": "vent_auto_sensor_current_n_max",
+      "channel": "ventilation",
+      "name": {
+        "en": "Sensor Output Current Parametern_max",
+        "de": "Sensorausgang Strom-Parameter n_max"
+      },
+      "description": {
+        "en": "Fan speed percentage upper point (range stop parameter p2) for a linear characteristic curve [n_max] for the fan speed.Setting range: 17% to 100%Factory setting: 80%",
+        "de": "Obere Punkt für Lüfterstufe in Prozent (Kennlinien-Endwert p2) für eine lineare Kennlinie [n_max] für die Lüfterdrehzahl.Einstellbereich: 17..100%Werkseinstellung: 80%"
+      },
+      "payload": {
+        "length": 1,
+        "type": "int",
+        "signed": false,
+        "class": "percent",
+        "decimals": 0,
+        "default": 80,
+        "unit_of_measurement": "%"
+      },
+      "state": {
+        "topic": "ventilation/automatic/sensor/current/n_max",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      },
+      "command": {
+        "topic": "ventilation/automatic/sensor/current/n_max/Set",
+        "retain": true,
+        "qos": 0
+      }
+    },
+    {
+      "address": "0x55",
+      "unique_id": "vent_auto_sensor_fan_speed",
+      "channel": "ventilation",
+      "name": {
+        "en": "Fan Speed by External Sensor",
+        "de": "Lüfterstufe gemäss Sensorausgang"
+      },
+      "description": {
+        "en": "Percentage of fan speed according to the sensor output.",
+        "de": "Prozentuale Lüfterstufe gemäss Sensorausgang."
+      },
+      "payload": {
+        "length": 2,
+        "type": "int",
+        "signed": true,
+        "class": "percent",
+        "decimals": 1,
+        "unit_of_measurement": "%"
+      },
+      "state": {
+        "topic": "ventilation/automatic/sensor/fan_speed",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      },
+      "command": {
+        "topic": "ventilation/automatic/sensor/fan_speed/Set",
+        "retain": true,
+        "qos": 0
+      }
+    },
+    {
+      "address": "0x56",
+      "unique_id": "defroster_brine_cooling_temp",
+      "channel": "defroster",
+      "name": {
+        "en": "Brine Defroster Cooling Threshold",
+        "de": "Sole-Defroster Kühlfunktion Schwellwert"
+      },
+      "description": {
+        "en": "Threshold temperature brine defroster [t_bde]. If the outside temperature is above the set threshold value, the brine defroster is activated for cooling the intake air (cooling function).Setting range: 15.0..30.0°CFactory setting: 22.0°C",
+        "de": "Kühltemperatur Sole-Defroster [t_sde]. Liegt die einströmende Außenlufttemperatur oberhalb des eingestellten Schwellwertes wird der Sole-Defroster zur Kühlung der Außenluft aktiviert (Kühlfunktion).Einstellbereich: 15.0..30.0°CWerkseinstellung: 22.0°C"
+      },
+      "payload": {
+        "length": 2,
+        "type": "int",
+        "signed": true,
+        "class": "temperature",
+        "decimals": 1,
+        "default": 22,
+        "min": 15,
+        "max": 30,
+        "unit_of_measurement": "°C"
+      },
+      "state": {
+        "topic": "defroster/brine_defroster/cooling_threshold",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      },
+      "command": {
+        "topic": "defroster/brine_defroster/cooling_threshold/Set",
+        "retain": true,
+        "qos": 0
+      }
+    },
+    {
+      "address": "0x57",
+      "unique_id": "mem_0x57",
+      "channel": "memory",
+      "name": {
+        "en": "Unknown",
+        "de": "Unbekannt"
+      },
+      "description": {
+        "en": "Unknown",
+        "de": "Unbekannt"
+      },
+      "payload": {
+        "length": 1,
+        "type": "byte",
+        "note": "Send when wake up from stb and on reboot, value always 0x0a"
+      },
+      "state": {
+        "topic": "memory/0x57",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      }
+    },
+    {
+      "address": "0x58",
+      "unique_id": "mem_0x58",
+      "channel": "memory",
+      "name": {
+        "en": "Unknown",
+        "de": "Unbekannt"
+      },
+      "description": {
+        "en": "Unknown",
+        "de": "Unbekannt"
+      },
+      "payload": {
+        "length": 1,
+        "type": "byte",
+        "note": "Send when wake up from stb and on reboot, value always 0x06"
+      },
+      "state": {
+        "topic": "memory/0x58",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      }
+    },
+    {
+      "address": "0x59",
+      "unique_id": "mem_0x59",
+      "channel": "memory",
+      "name": {
+        "en": "Unknown",
+        "de": "Unbekannt"
+      },
+      "description": {
+        "en": "Unknown",
+        "de": "Unbekannt"
+      },
+      "payload": {
+        "length": 1,
+        "type": "byte",
+        "note": "Send when wake up from stb and on reboot, value always 0x05"
+      },
+      "state": {
+        "topic": "memory/0x59",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      }
+    },
+    {
+      "address": "0x5a",
+      "unique_id": "post_heating_duct_temp",
+      "channel": "post_heating",
+      "name": {
+        "en": "Post Heating Duct Temperature",
+        "de": "Nachheizung Kanaltemperatur"
+      },
+      "description": {
+        "en": "Parameterisation of the duct temperature of the post-heating (supplementary heating battery).Setting range: 15.0°C..60.0°C in 0.5°C stepsFactory setting: 50.0°C",
+        "de": "Parametrierung der Kanaltemperatur der Nachheizung.Einstellbereich: 15.0°C..60.0°C in 0.5°C SchrittenWerkseinstellung: 50.0°C"
+      },
+      "payload": {
+        "length": 2,
+        "type": "int",
+        "signed": true,
+        "class": "temperature",
+        "decimals": 1,
+        "default": 50,
+        "min": 15,
+        "max": 60,
+        "step": 0.5,
+        "unit_of_measurement": "°C"
+      },
+      "state": {
+        "topic": "post_heating/duct_temperature",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      },
+      "command": {
+        "topic": "post_heating/duct_temperature/Set",
+        "retain": true,
+        "qos": 0
+      }
+    },
+    {
+      "address": "0x5b",
+      "unique_id": "mem_0x5b",
+      "channel": "memory",
+      "name": {
+        "en": "Unknown",
+        "de": "Unbekannt"
+      },
+      "description": {
+        "en": "Unknown",
+        "de": "Unbekannt"
+      },
+      "payload": {
+        "length": 2,
+        "type": "byte",
+        "note": "Send when wake up from stb and on reboot, value always 0x0032 (float: 5,0)"
+      },
+      "state": {
+        "topic": "memory/0x5b",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      }
+    },
+    {
+      "address": "0x5c",
+      "unique_id": "mem_0x5c",
+      "channel": "memory",
+      "name": {
+        "en": "Unknown",
+        "de": "Unbekannt"
+      },
+      "description": {
+        "en": "Unknown",
+        "de": "Unbekannt"
+      },
+      "payload": {
+        "length": 1,
+        "type": "byte",
+        "note": "Send when wake up from stb and on reboot, value always 0x05"
+      },
+      "state": {
+        "topic": "memory/0x5c",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      }
+    },
+    {
+      "address": "0x5d",
+      "unique_id": "mem_0x5d",
+      "channel": "memory",
+      "name": {
+        "en": "Unknown",
+        "de": "Unbekannt"
+      },
+      "description": {
+        "en": "Unknown",
+        "de": "Unbekannt"
+      },
+      "payload": {
+        "length": 1,
+        "type": "byte",
+        "note": "Send when wake up from stb and on reboot, value always 0x28"
+      },
+      "state": {
+        "topic": "memory/0x5d",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      }
+    },
+    {
+      "address": "0x5e",
+      "unique_id": "mem_0x5e",
+      "channel": "memory",
+      "name": {
+        "en": "Unknown",
+        "de": "Unbekannt"
+      },
+      "description": {
+        "en": "Unknown",
+        "de": "Unbekannt"
+      },
+      "payload": {
+        "length": 1,
+        "type": "byte",
+        "note": "Send when wake up from stb and on reboot, value always 0x00"
+      },
+      "state": {
+        "topic": "memory/0x5e",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      }
+    },
+    {
+      "address": "0x5f",
+      "unique_id": "ghe_min_outside_temp",
+      "channel": "ground_pipe_diverter_valve",
+      "name": {
+        "en": "GHE-Flap Lower Threshold",
+        "de": "EWT-Klappe Untere Schwelle"
+      },
+      "description": {
+        "en": "Lower threshold for minimum outside temperature [t_out_min]. If the intake temperature is below the set threshold value, the flap of the Geothermal Heat Exchanger opens the intake air duct for heating the intake air (frost protection function).Setting range: -10.0..14.5°CFactory setting: 5.0°C",
+        "de": "Untere Schwelle für minimale Außentemperatur [t_aut_min]. Liegt die Außentemperatur unterhalb des eingestellten Schwellwertes öffnet die EWT-Klappe den Außenluftstrang zum Erwärmen der Außenluft (Frostschutzfunktion).Einstellbereich: -10.0..14.5°CWerkseinstellung: 5.0°C"
+      },
+      "payload": {
+        "length": 2,
+        "type": "int",
+        "signed": true,
+        "class": "temperature",
+        "decimals": 1,
+        "default": 5,
+        "min": -10,
+        "max": 14.5,
+        "step": 0.5,
+        "unit_of_measurement": "°C"
+      },
+      "state": {
+        "topic": "ground_pipe_diverter_valve/min_outside_temperature",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      },
+      "command": {
+        "topic": "ground_pipe_diverter_valve/min_outside_temperature/Set",
+        "retain": true,
+        "qos": 0
+      }
+    },
+    {
+      "address": "0x60",
+      "unique_id": "ghe_max_outside_temp",
+      "channel": "ground_pipe_diverter_valve",
+      "name": {
+        "en": "GHE-Flap Upper Threshold",
+        "de": "EWT-Klappe Obere Schwelle"
+      },
+      "description": {
+        "en": "Upper threshold for maximum outside temperature [t_out_max]. If the intake temperature is above the set threshold value, the flap of the Geothermal Heat Exchanger opens the intake air duct for cooling the intake air (cooling function).Setting range: 15.0..30.0°CFactory setting: 22.0°C",
+        "de": "Oberes Schwelle für maximale Außentemperatur [t_aut_max]. Liegt die Außentemperatur oberhalb des eingestellten Schwellwertes öffnet die EWT-Klappe den Außenluftstrang zur Kühlung der Außenluft (Kühlfunktion).Einstellbereich: 15.0..30.0°CWerkseinstellung: 22.0°C"
+      },
+      "payload": {
+        "length": 2,
+        "type": "int",
+        "signed": true,
+        "class": "temperature",
+        "decimals": 1,
+        "default": 22,
+        "min": 15,
+        "max": 30,
+        "step": 0.5,
+        "unit_of_measurement": "°C"
+      },
+      "state": {
+        "topic": "ground_pipe_diverter_valve/max_outside_temperature",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      },
+      "command": {
+        "topic": "ground_pipe_diverter_valve/max_outside_temperature/Set",
+        "retain": true,
+        "qos": 0
+      }
+    },
+    {
+      "address": "0x61",
+      "unique_id": "mem_0x61",
+      "channel": "memory",
+      "name": {
+        "en": "Unknown",
+        "de": "Unbekannt"
+      },
+      "description": {
+        "en": "Unknown",
+        "de": "Unbekannt"
+      },
+      "payload": {
+        "length": 1,
+        "type": "byte",
+        "note": "Send when wake up from stb and on reboot, value always 0x05"
+      },
+      "state": {
+        "topic": "memory/0x61",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      }
+    },
+    {
+      "address": "0x62",
+      "unique_id": "bypass_check",
+      "channel": "bypass",
+      "name": {
+        "en": "Bypass Check",
+        "de": "By-pass Testen"
+      },
+      "description": {
+        "en": "By-pass check.Settings: None, Open, Close.Factory setting: None",
+        "de": "Bypass testen.Einstellungen: Nichts, Öffnen, SchliessenWerkseinstellung: Nichts"
+      },
+      "payload": {
+        "length": 1,
+        "type": "byte",
+        "class": "enum",
+        "default": "00",
+        "options": {
+          "00": "None",
+          "01": "Open",
+          "02": "Close"
+        }
+      },
+      "state": {
+        "topic": "bypass/check",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      },
+      "command": {
+        "topic": "bypass/check/Set",
+        "retain": true,
+        "qos": 0
+      }
+    },
+    {
+      "address": "0x63",
+      "unique_id": "vent_auto_mode",
+      "channel": "ventilation",
+      "name": {
+        "en": "Automatic Mode",
+        "de": "Automatik-Modus"
+      },
+      "description": {
+        "en": "Operating Mode in Automatic Mode.Settings: Automatic Sensor, Joint Operation Mode with Fire Place, Automatic TimingFactory setting: Automatic Timing",
+        "de": "Betriebsart im Automatik-Modus.Einstellungen: Sensorautomatik, Gemeinsamer Betrieb mit Feuerstätten, ZeitautomatikWerkseinstellung: Zeitautomatik"
+      },
+      "payload": {
+        "length": 2,
+        "type": "byte",
+        "class": "enum",
+        "default": "e000",
+        "options": {
+          "e801": "Automatic Sensor",
+          "ec01": "Joint Operation Mode with Fire Place",
+          "e000": "Automatic Timing"
+        }
+      },
+      "state": {
+        "topic": "ventilation/automatic/mode",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      },
+      "command": {
+        "topic": "ventilation/automatic/mode/Set",
+        "retain": true,
+        "qos": 0
+      }
+    },
+    {
+      "address": "0x64",
+      "unique_id": "vent_auto_time_0_1",
+      "channel": "ventilation",
+      "name": {
+        "en": "Time Program Monday 00:00-08:00",
+        "de": "Zeitautomatik Montag 00:00-08:00"
+      },
+      "description": {
+        "en": "Time Program Monday 00:00-08:00",
+        "de": "Zeitautomatik Montag 00:00-08:00"
+      },
+      "payload": {
+        "length": 8,
+        "type": "byte",
+        "class": "bitwise",
+        "note": "1 Bytes = 8 Bits. 2 Bits per Quarter Hour. Flagged as: 00=Off, 01=L1, 10=L2, 11=L3"
+      },
+      "state": {
+        "topic": "ventilation/automatic/time_program/0_00000800",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      },
+      "command": {
+        "topic": "ventilation/automatic/time_program/0_00000800/Set",
+        "retain": true,
+        "qos": 0
+      }
+    },
+    {
+      "address": "0x65",
+      "unique_id": "vent_auto_time_0_2",
+      "channel": "ventilation",
+      "name": {
+        "en": "Time Program Monday 08:00-16:00",
+        "de": "Zeitautomatik Montag 08:00-16:00"
+      },
+      "description": {
+        "en": "Time Program Monday 08:00-16:00",
+        "de": "Zeitautomatik Montag 08:00-16:00"
+      },
+      "payload": {
+        "length": 8,
+        "type": "byte",
+        "class": "bitwise",
+        "note": "1 Bytes = 8 Bits. 2 Bits per Quarter Hour. Flagged as: 00=Off, 01=L1, 10=L2, 11=L3"
+      },
+      "state": {
+        "topic": "ventilation/automatic/time_program/0_08001600",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      },
+      "command": {
+        "topic": "ventilation/automatic/time_program/0_08001600/Set",
+        "retain": true,
+        "qos": 0
+      }
+    },
+    {
+      "address": "0x66",
+      "unique_id": "vent_auto_time_0_3",
+      "channel": "ventilation",
+      "name": {
+        "en": "Time Program Monday 16:00-23:00",
+        "de": "Zeitautomatik Montag 16:00-23:00"
+      },
+      "description": {
+        "en": "Time Program Monday 16:00-23:00",
+        "de": "Zeitautomatik Montag 16:00-23:00"
+      },
+      "payload": {
+        "length": 8,
+        "type": "byte",
+        "class": "bitwise",
+        "note": "1 Bytes = 8 Bits. 2 Bits per Quarter Hour. Flagged as: 00=Off, 01=L1, 10=L2, 11=L3"
+      },
+      "state": {
+        "topic": "ventilation/automatic/time_program/0_16002300",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      },
+      "command": {
+        "topic": "ventilation/automatic/time_program/0_16002300/Set",
+        "retain": true,
+        "qos": 0
+      }
+    },
+    {
+      "address": "0x67",
+      "unique_id": "vent_auto_time_1_1",
+      "channel": "ventilation",
+      "name": {
+        "en": "Time Program Tuesday 00:00-08:00",
+        "de": "Zeitautomatik Dienstag 00:00-08:00"
+      },
+      "description": {
+        "en": "Time Program Tuesday 00:00-08:00",
+        "de": "Zeitautomatik Dienstag 00:00-08:00"
+      },
+      "payload": {
+        "length": 8,
+        "type": "byte",
+        "class": "bitwise",
+        "note": "1 Bytes = 8 Bits. 2 Bits per Quarter Hour. Flagged as: 00=Off, 01=L1, 10=L2, 11=L3"
+      },
+      "state": {
+        "topic": "ventilation/automatic/time_program/1_00000800",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      },
+      "command": {
+        "topic": "ventilation/automatic/time_program/1_00000800/Set",
+        "retain": true,
+        "qos": 0
+      }
+    },
+    {
+      "address": "0x68",
+      "unique_id": "vent_auto_time_1_2",
+      "channel": "ventilation",
+      "name": {
+        "en": "Time Program Tuesday 08:00-16:00",
+        "de": "Zeitautomatik Dienstag 08:00-16:00"
+      },
+      "description": {
+        "en": "Time Program Tuesday 08:00-16:00",
+        "de": "Zeitautomatik Dienstag 08:00-16:00"
+      },
+      "payload": {
+        "length": 8,
+        "type": "byte",
+        "class": "bitwise",
+        "note": "1 Bytes = 8 Bits. 2 Bits per Quarter Hour. Flagged as: 00=Off, 01=L1, 10=L2, 11=L3"
+      },
+      "state": {
+        "topic": "ventilation/automatic/time_program/1_08001600",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      },
+      "command": {
+        "topic": "ventilation/automatic/time_program/1_08001600/Set",
+        "retain": true,
+        "qos": 0
+      }
+    },
+    {
+      "address": "0x69",
+      "unique_id": "vent_auto_time_1_3",
+      "channel": "ventilation",
+      "name": {
+        "en": "Time Program Tuesday 16:00-23:00",
+        "de": "Zeitautomatik Dienstag 16:00-23:00"
+      },
+      "description": {
+        "en": "Time Program Tuesday 16:00-23:00",
+        "de": "Zeitautomatik Dienstag 16:00-23:00"
+      },
+      "payload": {
+        "length": 8,
+        "type": "byte",
+        "class": "bitwise",
+        "note": "1 Bytes = 8 Bits. 2 Bits per Quarter Hour. Flagged as: 00=Off, 01=L1, 10=L2, 11=L3"
+      },
+      "state": {
+        "topic": "ventilation/automatic/time_program/1_16002300",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      },
+      "command": {
+        "topic": "ventilation/automatic/time_program/1_16002300/Set",
+        "retain": true,
+        "qos": 0
+      }
+    },
+    {
+      "address": "0x6a",
+      "unique_id": "vent_auto_time_2_1",
+      "channel": "ventilation",
+      "name": {
+        "en": "Time Program Wednesday 00:00-08:00",
+        "de": "Zeitautomatik Mittwoch 00:00-08:00"
+      },
+      "description": {
+        "en": "Time Program Wednesday 00:00-08:00",
+        "de": "Zeitautomatik Mittwoch 00:00-08:00"
+      },
+      "payload": {
+        "length": 8,
+        "type": "byte",
+        "class": "bitwise",
+        "note": "1 Bytes = 8 Bits. 2 Bits per Quarter Hour. Flagged as: 00=Off, 01=L1, 10=L2, 11=L3"
+      },
+      "state": {
+        "topic": "ventilation/automatic/time_program/2_00000800",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      },
+      "command": {
+        "topic": "ventilation/automatic/time_program/2_00000800/Set",
+        "retain": true,
+        "qos": 0
+      }
+    },
+    {
+      "address": "0x6b",
+      "unique_id": "vent_auto_time_2_2",
+      "channel": "ventilation",
+      "name": {
+        "en": "Time Program Wednesday 08:00-16:00",
+        "de": "Zeitautomatik Mittwoch 08:00-16:00"
+      },
+      "description": {
+        "en": "Time Program Wednesday 08:00-16:00",
+        "de": "Zeitautomatik Mittwoch 08:00-16:00"
+      },
+      "payload": {
+        "length": 8,
+        "type": "byte",
+        "class": "bitwise",
+        "note": "1 Bytes = 8 Bits. 2 Bits per Quarter Hour. Flagged as: 00=Off, 01=L1, 10=L2, 11=L3"
+      },
+      "state": {
+        "topic": "ventilation/automatic/time_program/2_08001600",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      },
+      "command": {
+        "topic": "ventilation/automatic/time_program/2_08001600/Set",
+        "retain": true,
+        "qos": 0
+      }
+    },
+    {
+      "address": "0x6c",
+      "unique_id": "vent_auto_time_2_3",
+      "channel": "ventilation",
+      "name": {
+        "en": "Time Program Wednesday 16:00-23:00",
+        "de": "Zeitautomatik Mittwoch 16:00-23:00"
+      },
+      "description": {
+        "en": "Time Program Wednesday 16:00-23:00",
+        "de": "Zeitautomatik Mittwoch 16:00-23:00"
+      },
+      "payload": {
+        "length": 8,
+        "type": "byte",
+        "class": "bitwise",
+        "note": "1 Bytes = 8 Bits. 2 Bits per Quarter Hour. Flagged as: 00=Off, 01=L1, 10=L2, 11=L3"
+      },
+      "state": {
+        "topic": "ventilation/automatic/time_program/2_16002300",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      },
+      "command": {
+        "topic": "ventilation/automatic/time_program/2_16002300/Set",
+        "retain": true,
+        "qos": 0
+      }
+    },
+    {
+      "address": "0x6d",
+      "unique_id": "vent_auto_time_3_1",
+      "channel": "ventilation",
+      "name": {
+        "en": "Time Program Thursday 00:00-08:00",
+        "de": "Zeitautomatik Donnerstag 00:00-08:00"
+      },
+      "description": {
+        "en": "Time Program Thursday 00:00-08:00",
+        "de": "Zeitautomatik Donnerstag 00:00-08:00"
+      },
+      "payload": {
+        "length": 8,
+        "type": "byte",
+        "class": "bitwise",
+        "note": "1 Bytes = 8 Bits. 2 Bits per Quarter Hour. Flagged as: 00=Off, 01=L1, 10=L2, 11=L3"
+      },
+      "state": {
+        "topic": "ventilation/automatic/time_program/3_00000800",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      },
+      "command": {
+        "topic": "ventilation/automatic/time_program/3_00000800/Set",
+        "retain": true,
+        "qos": 0
+      }
+    },
+    {
+      "address": "0x6e",
+      "unique_id": "vent_auto_time_3_2",
+      "channel": "ventilation",
+      "name": {
+        "en": "Time Program Thursday 08:00-16:00",
+        "de": "Zeitautomatik Donnerstag 08:00-16:00"
+      },
+      "description": {
+        "en": "Time Program Thursday 08:00-16:00",
+        "de": "Zeitautomatik Donnerstag 08:00-16:00"
+      },
+      "payload": {
+        "length": 8,
+        "type": "byte",
+        "class": "bitwise",
+        "note": "1 Bytes = 8 Bits. 2 Bits per Quarter Hour. Flagged as: 00=Off, 01=L1, 10=L2, 11=L3"
+      },
+      "state": {
+        "topic": "ventilation/automatic/time_program/3_08001600",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      },
+      "command": {
+        "topic": "ventilation/automatic/time_program/3_08001600/Set",
+        "retain": true,
+        "qos": 0
+      }
+    },
+    {
+      "address": "0x6f",
+      "unique_id": "vent_auto_time_3_3",
+      "channel": "ventilation",
+      "name": {
+        "en": "Time Program Thursday 16:00-23:00",
+        "de": "Zeitautomatik Donnerstag 16:00-23:00"
+      },
+      "description": {
+        "en": "Time Program Thursday 16:00-23:00",
+        "de": "Zeitautomatik Donnerstag 16:00-23:00"
+      },
+      "payload": {
+        "length": 8,
+        "type": "byte",
+        "class": "bitwise",
+        "note": "1 Bytes = 8 Bits. 2 Bits per Quarter Hour. Flagged as: 00=Off, 01=L1, 10=L2, 11=L3"
+      },
+      "state": {
+        "topic": "ventilation/automatic/time_program/3_16002300",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      },
+      "command": {
+        "topic": "ventilation/automatic/time_program/3_16002300/Set",
+        "retain": true,
+        "qos": 0
+      }
+    },
+    {
+      "address": "0x70",
+      "unique_id": "vent_auto_time_4_1",
+      "channel": "ventilation",
+      "name": {
+        "en": "Time Program Friday 00:00-08:00",
+        "de": "Zeitautomatik Freitag 00:00-08:00"
+      },
+      "description": {
+        "en": "Time Program Friday 00:00-08:00",
+        "de": "Zeitautomatik Freitag 00:00-08:00"
+      },
+      "payload": {
+        "length": 8,
+        "type": "byte",
+        "class": "bitwise",
+        "note": "1 Bytes = 8 Bits. 2 Bits per Quarter Hour. Flagged as: 00=Off, 01=L1, 10=L2, 11=L3"
+      },
+      "state": {
+        "topic": "ventilation/automatic/time_program/4_00000800",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      },
+      "command": {
+        "topic": "ventilation/automatic/time_program/4_00000800/Set",
+        "retain": true,
+        "qos": 0
+      }
+    },
+    {
+      "address": "0x71",
+      "unique_id": "vent_auto_time_4_2",
+      "channel": "ventilation",
+      "name": {
+        "en": "Time Program Friday 08:00-16:00",
+        "de": "Zeitautomatik Freitag 08:00-16:00"
+      },
+      "description": {
+        "en": "Time Program Friday 08:00-16:00",
+        "de": "Zeitautomatik Freitag 08:00-16:00"
+      },
+      "payload": {
+        "length": 8,
+        "type": "byte",
+        "class": "bitwise",
+        "note": "1 Bytes = 8 Bits. 2 Bits per Quarter Hour. Flagged as: 00=Off, 01=L1, 10=L2, 11=L3"
+      },
+      "state": {
+        "topic": "ventilation/automatic/time_program/4_08001600",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      },
+      "command": {
+        "topic": "ventilation/automatic/time_program/4_08001600/Set",
+        "retain": true,
+        "qos": 0
+      }
+    },
+    {
+      "address": "0x72",
+      "unique_id": "vent_auto_time_4_3",
+      "channel": "ventilation",
+      "name": {
+        "en": "Time Program Friday 16:00-23:00",
+        "de": "Zeitautomatik Freitag 16:00-23:00"
+      },
+      "description": {
+        "en": "Time Program Friday 16:00-23:00",
+        "de": "Zeitautomatik Freitag 16:00-23:00"
+      },
+      "payload": {
+        "length": 8,
+        "type": "byte",
+        "class": "bitwise",
+        "note": "1 Bytes = 8 Bits. 2 Bits per Quarter Hour. Flagged as: 00=Off, 01=L1, 10=L2, 11=L3"
+      },
+      "state": {
+        "topic": "ventilation/automatic/time_program/4_16002300",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      },
+      "command": {
+        "topic": "ventilation/automatic/time_program/4_16002300/Set",
+        "retain": true,
+        "qos": 0
+      }
+    },
+    {
+      "address": "0x73",
+      "unique_id": "vent_auto_time_5_1",
+      "channel": "ventilation",
+      "name": {
+        "en": "Time Program Saturday 00:00-08:00",
+        "de": "Zeitautomatik Samstag 00:00-08:00"
+      },
+      "description": {
+        "en": "Time Program Saturday 00:00-08:00",
+        "de": "Zeitautomatik Samstag 00:00-08:00"
+      },
+      "payload": {
+        "length": 8,
+        "type": "byte",
+        "class": "bitwise",
+        "note": "1 Bytes = 8 Bits. 2 Bits per Quarter Hour. Flagged as: 00=Off, 01=L1, 10=L2, 11=L3"
+      },
+      "state": {
+        "topic": "ventilation/automatic/time_program/5_00000800",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      },
+      "command": {
+        "topic": "ventilation/automatic/time_program/5_00000800/Set",
+        "retain": true,
+        "qos": 0
+      }
+    },
+    {
+      "address": "0x74",
+      "unique_id": "vent_auto_time_5_2",
+      "channel": "ventilation",
+      "name": {
+        "en": "Time Program Saturday 08:00-16:00",
+        "de": "Zeitautomatik Samstag 08:00-16:00"
+      },
+      "description": {
+        "en": "Time Program Saturday 08:00-16:00",
+        "de": "Zeitautomatik Samstag 08:00-16:00"
+      },
+      "payload": {
+        "length": 8,
+        "type": "byte",
+        "class": "bitwise",
+        "note": "1 Bytes = 8 Bits. 2 Bits per Quarter Hour. Flagged as: 00=Off, 01=L1, 10=L2, 11=L3"
+      },
+      "state": {
+        "topic": "ventilation/automatic/time_program/5_08001600",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      },
+      "command": {
+        "topic": "ventilation/automatic/time_program/5_08001600/Set",
+        "retain": true,
+        "qos": 0
+      }
+    },
+    {
+      "address": "0x75",
+      "unique_id": "vent_auto_time_5_3",
+      "channel": "ventilation",
+      "name": {
+        "en": "Time Program Saturday 16:00-23:00",
+        "de": "Zeitautomatik Samstag 16:00-23:00"
+      },
+      "description": {
+        "en": "Time Program Saturday 16:00-23:00",
+        "de": "Zeitautomatik Samstag 16:00-23:00"
+      },
+      "payload": {
+        "length": 8,
+        "type": "byte",
+        "class": "bitwise",
+        "note": "1 Bytes = 8 Bits. 2 Bits per Quarter Hour. Flagged as: 00=Off, 01=L1, 10=L2, 11=L3"
+      },
+      "state": {
+        "topic": "ventilation/automatic/time_program/5_16002300",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      },
+      "command": {
+        "topic": "ventilation/automatic/time_program/5_16002300/Set",
+        "retain": true,
+        "qos": 0
+      }
+    },
+    {
+      "address": "0x76",
+      "unique_id": "vent_auto_time_6_1",
+      "channel": "ventilation",
+      "name": {
+        "en": "Time Program Sunday 00:00-08:00",
+        "de": "Zeitautomatik Sontag 00:00-08:00"
+      },
+      "description": {
+        "en": "Time Program Sunday 00:00-08:00",
+        "de": "Zeitautomatik Sontag 00:00-08:00"
+      },
+      "payload": {
+        "length": 8,
+        "type": "byte",
+        "class": "bitwise",
+        "note": "1 Bytes = 8 Bits. 2 Bits per Quarter Hour. Flagged as: 00=Off, 01=L1, 10=L2, 11=L3"
+      },
+      "state": {
+        "topic": "ventilation/automatic/time_program/6_00000800",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      },
+      "command": {
+        "topic": "ventilation/automatic/time_program/6_00000800/Set",
+        "retain": true,
+        "qos": 0
+      }
+    },
+    {
+      "address": "0x77",
+      "unique_id": "vent_auto_time_6_2",
+      "channel": "ventilation",
+      "name": {
+        "en": "Time Program Sunday 08:00-16:00",
+        "de": "Zeitautomatik Sontag 08:00-16:00"
+      },
+      "description": {
+        "en": "Time Program Sunday 08:00-16:00",
+        "de": "Zeitautomatik Sontag 08:00-16:00"
+      },
+      "payload": {
+        "length": 8,
+        "type": "byte",
+        "class": "bitwise",
+        "note": "1 Bytes = 8 Bits. 2 Bits per Quarter Hour. Flagged as: 00=Off, 01=L1, 10=L2, 11=L3"
+      },
+      "state": {
+        "topic": "ventilation/automatic/time_program/6_08001600",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      },
+      "command": {
+        "topic": "ventilation/automatic/time_program/6_08001600/Set",
+        "retain": true,
+        "qos": 0
+      }
+    },
+    {
+      "address": "0x78",
+      "unique_id": "vent_auto_time_6_3",
+      "channel": "ventilation",
+      "name": {
+        "en": "Time Program Sunday 16:00-23:00",
+        "de": "Zeitautomatik Sontag 16:00-23:00"
+      },
+      "description": {
+        "en": "Time Program Sunday 16:00-23:00",
+        "de": "Zeitautomatik Sontag 16:00-23:00"
+      },
+      "payload": {
+        "length": 8,
+        "type": "byte",
+        "class": "bitwise",
+        "note": "1 Bytes = 8 Bits. 2 Bits per Quarter Hour. Flagged as: 00=Off, 01=L1, 10=L2, 11=L3"
+      },
+      "state": {
+        "topic": "ventilation/automatic/time_program/6_16002300",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      },
+      "command": {
+        "topic": "ventilation/automatic/time_program/6_16002300/Set",
+        "retain": true,
+        "qos": 0
+      }
+    },
+    {
+      "address": "0x79",
+      "unique_id": "screen_dim_degree",
+      "channel": "screen_dimming",
+      "name": {
+        "en": "Degree of Screen Dimming",
+        "de": "Grad der Bildschirm-Abdunkelung"
+      },
+      "description": {
+        "en": "Degree of dimming relating to the basic brightness when the screen is active.Setting range: 5..95% in 5%-stepsFactory setting: 75%",
+        "de": "Abdunkelung bezogen auf die Grundhelligkeit bei aktiven Bildschirm.Einstellbereich: 5..95% in 5%-SchritteWerkseinstellung: 75%"
+      },
+      "payload": {
+        "length": 1,
+        "type": "int",
+        "signed": false,
+        "class": "percent",
+        "decimals": 0,
+        "default": 75,
+        "min": 0,
+        "max": 95,
+        "step": 5,
+        "unit_of_measurement": "%"
+      },
+      "state": {
+        "topic": "screen_dimming/degree",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      },
+      "command": {
+        "topic": "screen_dimming/degree/Set",
+        "retain": true,
+        "qos": 0
+      }
+    },
+    {
+      "address": "0x7a",
+      "unique_id": "screen_dim_duration",
+      "channel": "screen_dimming",
+      "name": {
+        "en": "Duration until Screen Dimming",
+        "de": "Dauer bis zur Bildschirm-Abdunkelung"
+      },
+      "description": {
+        "en": "Duration until dimming after last operation of the TFT control unit.Setting range: 1..10min in 1min-stepsFactory setting: 1min",
+        "de": "Dauer bis Aktivierung der Abdunkelung nach letzter Bedienung des TFT-Touchpanels.Einstellbereich: 1..10min in 1min-SchritteWerkseinstellung: 1min"
+      },
+      "payload": {
+        "length": 1,
+        "type": "int",
+        "signed": false,
+        "class": "time",
+        "decimals": 0,
+        "default": 1,
+        "min": 1,
+        "max": 10,
+        "step": 1,
+        "unit_of_measurement": "min"
+      },
+      "state": {
+        "topic": "screen_dimming/duration",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      },
+      "command": {
+        "topic": "screen_dimming/duration/Set",
+        "retain": true,
+        "qos": 0
+      }
+    },
+    {
+      "address": "0x7b",
+      "unique_id": "fp_mode",
+      "channel": "frost_protection",
+      "name": {
+        "en": "Frost Protection Mode",
+        "de": "Frostschutz-Modus"
+      },
+      "description": {
+        "en": "Frost protection mode with own anti-freeze protection threshold.Settings: Eco, Safe, Moisture Heat ExchangerFactory setting: Safe",
+        "de": "Frostschutz-Modus mit eigener FrostschutzschwelleEinstellungen: Eco, Sicher, Feuchte-WTWerkseinstellung: Sicher"
+      },
+      "payload": {
+        "length": 1,
+        "type": "byte",
+        "class": "enum",
+        "default": "01",
+        "options": {
+          "00": "Eco",
+          "01": "Safe",
+          "02": "Moisture Heat Exchanger"
+        }
+      },
+      "state": {
+        "topic": "frost_protection/mode",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      },
+      "command": {
+        "topic": "frost_protection/mode/Set",
+        "retain": true,
+        "qos": 0
+      }
+    },
+    {
+      "address": "0x7c",
+      "unique_id": "mem_0x7c",
+      "channel": "memory",
+      "name": {
+        "en": "Unknown",
+        "de": "Unbekannt"
+      },
+      "description": {
+        "en": "Unknown",
+        "de": "Unbekannt"
+      },
+      "payload": {
+        "length": 1,
+        "type": "byte",
+        "note": "Send when wake up from stb and on reboot, value always 0x05"
+      },
+      "state": {
+        "topic": "memory/0x7c",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      }
+    },
+    {
+      "address": "0x7d",
+      "unique_id": "mem_0x7d",
+      "channel": "memory",
+      "name": {
+        "en": "Unknown",
+        "de": "Unbekannt"
+      },
+      "description": {
+        "en": "Unknown",
+        "de": "Unbekannt"
+      },
+      "payload": {
+        "length": 1,
+        "type": "byte",
+        "note": "Send when wake up from stb and on reboot, value always 0x81"
+      },
+      "state": {
+        "topic": "memory/0x7d",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      }
+    },
+    {
+      "address": "0x7e",
+      "unique_id": "mem_0x7e",
+      "channel": "memory",
+      "name": {
+        "en": "Unknown",
+        "de": "Unbekannt"
+      },
+      "description": {
+        "en": "Unknown",
+        "de": "Unbekannt"
+      },
+      "payload": {
+        "length": 1,
+        "type": "byte",
+        "note": "Send when wake up from stb and on reboot, value always 0x82"
+      },
+      "state": {
+        "topic": "memory/0x7e",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      }
+    },
+    {
+      "address": "0x7f",
+      "unique_id": "fp_defroster_type",
+      "channel": "frost_protection",
+      "name": {
+        "en": "Defroster Type",
+        "de": "Defrosterheizung Typ"
+      },
+      "description": {
+        "en": "Defroster TypeSetting: None, PTC Defroster, Brine DefrosterFactory Setting: PTC Defroster",
+        "de": "Defrosterheizung TypEinstellungen: Keine, PTC-Defroster, Sole-DefrosterWerkseinstellung: PTC-Defroster"
+      },
+      "payload": {
+        "length": 1,
+        "type": "byte",
+        "class": "enum",
+        "default": "02",
+        "options": {
+          "00": "None",
+          "02": "PTC Defroster",
+          "03": "Brine Defroster"
+        }
+      },
+      "state": {
+        "topic": "frost_protection/type",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      },
+      "command": {
+        "topic": "frost_protection/type/Set",
+        "retain": true,
+        "qos": 0
+      }
+    },
+    {
+      "address": "0x80",
+      "unique_id": "post_heating_type",
+      "channel": "post_heating",
+      "name": {
+        "en": "Post Heating Type",
+        "de": "Nachheizung Typ"
+      },
+      "description": {
+        "en": "Optionally available supplementary heating battery module.Settings: None, Electric Heater Battery, Hot Water Heater BatteryFactory setting: None",
+        "de": "Optional vorhandenes Nachheizmodul.Einstellungen: Kein, Elektroheizregister, Warmwasser-HeizregisterWerkseinstellung: Kein"
+      },
+      "payload": {
+        "length": 1,
+        "type": "byte",
+        "class": "enum",
+        "default": "00",
+        "options": {
+          "00": "None",
+          "01": "Electric Heater Battery",
+          "03": "Hot Water Heater Battery"
+        }
+      },
+      "state": {
+        "topic": "post_heating/type",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      },
+      "command": {
+        "topic": "post_heating/type/Set",
+        "retain": true,
+        "qos": 0
+      }
+    },
+    {
+      "address": "0x81",
+      "unique_id": "status_sensor_t2",
+      "channel": "sensors",
+      "name": {
+        "en": "Temperature Sensor T2",
+        "de": "Temperatur Sensor T2"
+      },
+      "description": {
+        "en": "Version LEFT: Supply air temperature [t_sup]Version RIGHT: Exhaust air temperature [t_exh]",
+        "de": "Geräteversion LINKS: Zulufttemperatur [t_zul]Geräteversion RECHTS: Fortlufttemperatur [t_fol]"
+      },
+      "payload": {
+        "length": 2,
+        "type": "int",
+        "signed": true,
+        "class": "temperature",
+        "decimals": 1,
+        "unit_of_measurement": "°C"
+      },
+      "state": {
+        "topic": "sensors/temperature_t2",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      }
+    },
+    {
+      "address": "0x82",
+      "unique_id": "status_sensor_t1",
+      "channel": "sensors",
+      "name": {
+        "en": "Temperature Sensor T1",
+        "de": "Temperatur Sensor T1"
+      },
+      "description": {
+        "en": "Version LEFT: Intake air temperature [t_int]Version RIGHT: Extract air temperature [t_ext]",
+        "de": "Geräteversion LINKS: Aussenlufttemperatur [t_aul]Geräteversion RECHTS: Ablufttemperatur [t_abl]"
+      },
+      "payload": {
+        "length": 2,
+        "type": "int",
+        "signed": true,
+        "class": "temperature",
+        "decimals": 1,
+        "unit_of_measurement": "°C"
+      },
+      "state": {
+        "topic": "sensors/temperature_t1",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      }
+    },
+    {
+      "address": "0x83",
+      "unique_id": "status_sensor_t4",
+      "channel": "sensors",
+      "name": {
+        "en": "Temperature Sensor T4",
+        "de": "Temperatur Sensor T4"
+      },
+      "description": {
+        "en": "Version LEFT: Exhaust air [t_exh]Version RIGHT: Supply air temperature [t_sup]",
+        "de": "Geräteversion LINKS: Fortlufttemperatur [t_fol]Geräteversion RECHTS: Zulufttemperatur [t_zul]"
+      },
+      "payload": {
+        "length": 2,
+        "type": "int",
+        "signed": true,
+        "class": "temperature",
+        "decimals": 1,
+        "unit_of_measurement": "°C"
+      },
+      "state": {
+        "topic": "sensors/temperature_t4",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      }
+    },
+    {
+      "address": "0x84",
+      "unique_id": "status_sensor_t3",
+      "channel": "sensors",
+      "name": {
+        "en": "Temperature Sensor T3",
+        "de": "Temperatur Sensor T3"
+      },
+      "description": {
+        "en": "Version LEFT: Extract air [t_ext]Version RIGHT: Intake air temperature [t_int]",
+        "de": "Geräteversion LINKS: Ablufttemperatur [t_abl]Geräteversion RECHTS: Aussenlufttemperatur [t_aul]"
+      },
+      "payload": {
+        "length": 2,
+        "type": "int",
+        "signed": true,
+        "class": "temperature",
+        "decimals": 1,
+        "unit_of_measurement": "°C"
+      },
+      "state": {
+        "topic": "sensors/temperature_t3",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      }
+    },
+    {
+      "address": "0x85",
+      "unique_id": "sys_op_hours_fans",
+      "channel": "system",
+      "name": {
+        "en": "Fan operating hours",
+        "de": "Lüfter-Bertriebsstunden"
+      },
+      "description": {
+        "en": "Operating hours of the fans (time during which the fans are operating)",
+        "de": "Lüfter-Betriebsstunden (Zeit, die die Lüfter in Betrieb sind)"
+      },
+      "payload": {
+        "length": 5,
+        "type": "counter",
+        "class": "time",
+        "unit_of_measurement": "min"
+      },
+      "state": {
+        "topic": "system/operating_hours/fans",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      },
+      "command": {
+        "topic": "system/operating_hours/fans/Set",
+        "retain": true,
+        "qos": 0
+      }
+    },
+    {
+      "address": "0x86",
+      "unique_id": "mem_0x86",
+      "channel": "memory",
+      "name": {
+        "en": "Unknown",
+        "de": "Unbekannt"
+      },
+      "description": {
+        "en": "Unknown",
+        "de": "Unbekannt"
+      },
+      "payload": {
+        "length": 1,
+        "type": "byte"
+      },
+      "state": {
+        "topic": "memory/0x86",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      }
+    },
+    {
+      "address": "0x87",
+      "unique_id": "mem_0x87",
+      "channel": "memory",
+      "name": {
+        "en": "Unknown",
+        "de": "Unbekannt"
+      },
+      "description": {
+        "en": "Unknown",
+        "de": "Unbekannt"
+      },
+      "payload": {
+        "length": 1,
+        "type": "byte"
+      },
+      "state": {
+        "topic": "memory/0x87",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      }
+    },
+    {
+      "address": "0x88",
+      "unique_id": "msg_error_n2_code",
+      "channel": "messages",
+      "name": {
+        "en": "Error Message #2: Code",
+        "de": "Fehlermeldung #2: Code"
+      },
+      "description": {
+        "en": "Code of error message n-2",
+        "de": "Code der Fehlermeldung n-2"
+      },
+      "payload": {
+        "length": 16,
+        "type": "byte",
+        "class": "code"
+      },
+      "state": {
+        "topic": "messages/error_n2/code",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      }
+    },
+    {
+      "address": "0x89",
+      "unique_id": "msg_error_n2_date",
+      "channel": "messages",
+      "name": {
+        "en": "Error Message #2: Date",
+        "de": "Fehlermeldung #2: Datum"
+      },
+      "description": {
+        "en": "Event date of error message n-2",
+        "de": "Datum der Fehlermeldung n-2"
+      },
+      "payload": {
+        "length": 4,
+        "type": "date",
+        "class": "date"
+      },
+      "state": {
+        "topic": "messages/error_n2/date",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      }
+    },
+    {
+      "address": "0x8a",
+      "unique_id": "msg_error_n2_time",
+      "channel": "messages",
+      "name": {
+        "en": "Error Message #2: Time",
+        "de": "Fehlermeldung #2: Uhrzeit"
+      },
+      "description": {
+        "en": "Event time of error message n-2",
+        "de": "Uhrzeit der Fehlermeldung n-2"
+      },
+      "payload": {
+        "length": 3,
+        "type": "time",
+        "class": "time"
+      },
+      "state": {
+        "topic": "messages/error_n2/time",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      }
+    },
+    {
+      "address": "0x8b",
+      "unique_id": "msg_error_n3_code",
+      "channel": "messages",
+      "name": {
+        "en": "Error Message #3: Code",
+        "de": "Fehlermeldung #3: Code"
+      },
+      "description": {
+        "en": "Code of error message n-3",
+        "de": "Code der Fehlermeldung n-3"
+      },
+      "payload": {
+        "length": 16,
+        "type": "byte",
+        "class": "code"
+      },
+      "state": {
+        "topic": "messages/error_n3/code",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      }
+    },
+    {
+      "address": "0x8c",
+      "unique_id": "msg_error_n3_date",
+      "channel": "messages",
+      "name": {
+        "en": "Error Message #3: Date",
+        "de": "Fehlermeldung #3: Datum"
+      },
+      "description": {
+        "en": "Event date of error message n-3",
+        "de": "Datum der Fehlermeldung n-3"
+      },
+      "payload": {
+        "length": 4,
+        "type": "date",
+        "class": "date"
+      },
+      "state": {
+        "topic": "messages/error_n3/date",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      }
+    },
+    {
+      "address": "0x8d",
+      "unique_id": "msg_error_n3_time",
+      "channel": "messages",
+      "name": {
+        "en": "Error Message #3: Time",
+        "de": "Fehlermeldung #3: Uhrzeit"
+      },
+      "description": {
+        "en": "Event time of error message n-3",
+        "de": "Uhrzeit der Fehlermeldung n-3"
+      },
+      "payload": {
+        "length": 3,
+        "type": "time",
+        "class": "time"
+      },
+      "state": {
+        "topic": "messages/error_n3/time",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      }
+    },
+    {
+      "address": "0x8e",
+      "unique_id": "mem_0x8e",
+      "channel": "memory",
+      "name": {
+        "en": "Unknown",
+        "de": "Unbekannt"
+      },
+      "description": {
+        "en": "Unknown",
+        "de": "Unbekannt"
+      },
+      "payload": {
+        "length": 1,
+        "type": "byte"
+      },
+      "state": {
+        "topic": "memory/0x8e",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      }
+    },
+    {
+      "address": "0x8f",
+      "unique_id": "dev_cu_tft_2_version",
+      "channel": "devices",
+      "name": {
+        "en": "TFT-ControlUnit#2: Version",
+        "de": "TFT-Bedienteil #2: Version"
+      },
+      "description": {
+        "en": "HW/SW-Version",
+        "de": "HW/SW-Version"
+      },
+      "payload": {
+        "length": 11,
+        "type": "char",
+        "class": "text"
+      },
+      "state": {
+        "topic": "devices/control_unit_tft_2/version",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      }
+    },
+    {
+      "address": "0x90",
+      "unique_id": "mem_0x90",
+      "channel": "memory",
+      "name": {
+        "en": "Unknown",
+        "de": "Unbekannt"
+      },
+      "description": {
+        "en": "Unknown",
+        "de": "Unbekannt"
+      },
+      "payload": {
+        "length": 1,
+        "type": "byte",
+        "note": "TFT#2: Device Related?"
+      },
+      "state": {
+        "topic": "memory/0x90",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      }
+    },
+    {
+      "address": "0x91",
+      "unique_id": "mem_0x91",
+      "channel": "memory",
+      "name": {
+        "en": "Unknown",
+        "de": "Unbekannt"
+      },
+      "description": {
+        "en": "Unknown",
+        "de": "Unbekannt"
+      },
+      "payload": {
+        "length": 1,
+        "type": "byte"
+      },
+      "state": {
+        "topic": "memory/0x91",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      }
+    },
+    {
+      "address": "0x92",
+      "unique_id": "dev_cu_tft_3_version",
+      "channel": "devices",
+      "name": {
+        "en": "TFT-ControlUnit#3: Version",
+        "de": "TFT-Bedienteil #3: Version"
+      },
+      "description": {
+        "en": "HW/SW-Version",
+        "de": "HW/SW-Version"
+      },
+      "payload": {
+        "length": 11,
+        "type": "char",
+        "class": "text"
+      },
+      "state": {
+        "topic": "devices/control_unit_tft_3/version",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      }
+    },
+    {
+      "address": "0x93",
+      "unique_id": "mem_0x93",
+      "channel": "memory",
+      "name": {
+        "en": "Unknown",
+        "de": "Unbekannt"
+      },
+      "description": {
+        "en": "Unknown",
+        "de": "Unbekannt"
+      },
+      "payload": {
+        "length": 1,
+        "type": "byte",
+        "note": "TFT#3: Device Related?"
+      },
+      "state": {
+        "topic": "memory/0x93",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      }
+    },
+    {
+      "address": "0x94",
+      "unique_id": "mem_0x94",
+      "channel": "memory",
+      "name": {
+        "en": "Unknown",
+        "de": "Unbekannt"
+      },
+      "description": {
+        "en": "Unknown",
+        "de": "Unbekannt"
+      },
+      "payload": {
+        "length": 1,
+        "type": "byte"
+      },
+      "state": {
+        "topic": "memory/0x94",
+        "retain": true,
+        "qos": 0,
+        "publish": {
+          "hex": true,
+          "convered": true,
+          "formatted": true
+        }
+      }
+    }
+  ]
+}
